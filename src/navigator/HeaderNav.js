@@ -18,12 +18,12 @@ import Favorite from './../screens/MyFavorite';
 
 // without Bottom Tab Navigator
 const HeaderNav = createStackNavigator({
-  LoadingScreen: {
-    screen: Loading,
-    navigationOptions: ({ navigation }) => ({
-      header: null
-    }),
-  },
+  // LoadingScreen: {
+  //   screen: Loading,
+  //   navigationOptions: ({ navigation }) => ({
+  //     header: null
+  //   }),
+  // },
   Login: {
     screen: Login,
     navigationOptions: ({ navigation }) => ({

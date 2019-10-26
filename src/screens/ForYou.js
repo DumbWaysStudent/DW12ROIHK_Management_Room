@@ -111,52 +111,9 @@ class ForYou extends React.Component {
         <Container style={styles.container}>
           <Content>
             <Header searchBar style={styles.Header}>
-              <Item regular>
-                <Input
-                  value={this.state.search}
-                  onChangeText={(text) => this.setState({ search: text })}
-                />
-                <Icon name='search' />
-              </Item>
-
             </Header>
-            <Header span
-              style={styles.headerSlide}>
-              <Slideshow height={200}
-                dataSource={this.state.data}
-                position={this.state.slidePos}
-                onPositionChanged={position => this.setState({ position })}
-              />
-            </Header>
-
             <List>
-              <View>
-                <Card bordered style={styles.formFav}>
-
-                  <ListItem itemDivider style={styles.ListDiv}>
-                    <Text style={styles.title}>Favorite</Text>
-                  </ListItem>
-
-
-                  <List dataArray={this.state.favorite} horizontal={true}
-                    renderRow={(item) =>
-                      <CardItem thumbnail bordered>
-                        <Body>
-                          <Button transparent onPress={() => alert('belum')}>
-                            <Thumbnail square source={{ uri: item.url }} />
-                          </Button>
-                          <Text>{item.title}</Text>
-                        </Body>
-                      </CardItem>}>
-                  </List>
-                </Card>
-
-              </View>
               <Card>
-                <ListItem itemDivider style={styles.ListDiv}>
-                  <Text style={styles.title}>All</Text>
-                </ListItem>
-
                 <List style={styles.formAll}
 
                   dataArray={this.props.webtoonsLocal.webtoons.data} horizontal={false}
@@ -169,17 +126,17 @@ class ForYou extends React.Component {
                         </Button>
                         <Body>
                           <Text >{item.title}</Text>
-                          <Button block small
-                            style={{ backgroundColor: item.favBtnColor }}
-                            onPress={() => this.onHandleFavoriteBtn(item.id)}>
-                            <Text style={{ color: '#ffffff' }}> + Favorite </Text>
-                          </Button>
                         </Body>
                       </Left>
                     </CardItem>
                   }>
                 </List>
               </Card>
+              <Button block small
+                onPress={() => alert('here')}>
+                <Text style={{ color: '#ffffff' }}> + Favorite </Text>
+              </Button>
+
             </List>
 
           </Content>

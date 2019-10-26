@@ -10,7 +10,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'admin@gmail.com',
+      username: 'admin@gmail.com',
       password: 'rahasia',
       icon: 'eye-off',
       passMode: true
@@ -18,19 +18,8 @@ class Login extends React.Component {
   }
 
   validate = (text) => {
-    //console.log(text);
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-    if (reg.test(text) === false) {
-      alert("Email is Not Correct");
-      this.setState({ email: text })
-      return false;
-    }
-    else {
-      this.setState({ email: text })
+    //  this.setState({ username: text })
       this.handleLogin()
-
-
-    }
   }
 
   modeIcon() {
@@ -42,15 +31,14 @@ class Login extends React.Component {
 
 
   async handleLogin() {
-    let data = { email: this.state.email, password: this.state.password }
+    let data = { username: this.state.username, password: this.state.password }
     await this.props.handlePostUsers(data)
     const dataUser = this.props.usersLocal.users.data
     //alert(dataUser.user.id)
     if (dataUser.token) {
       await AsyncStorage.multiSet([
         ['token', dataUser.token],
-        ['userId', `${dataUser.user.id}`],
-        ['userName', dataUser.user.name]
+        ['userName', dataUser.username]
       ])
       // await AsyncStorage.setItem('userId', this.props.usersLocal.users.data.user.id)
       this.props.navigation.navigate('BottomTabNav')
@@ -63,7 +51,7 @@ class Login extends React.Component {
 
   demo() {
     this.setState({ password: 'rahasia' })
-    this.setState({ email: 'admin@gmail.com' })
+    this.setState({ username: 'admin@gmail.com' })
   }
 
   async passLogin() {
@@ -86,21 +74,16 @@ class Login extends React.Component {
         <SafeAreaView>
           <View >
             <View style={[styles.marginTitle]}>
-            <Image 
-        source={{uri: 'https://raw.githubusercontent.com/DumbWaysStudent/DW12ROIHK_webtoon/implementasi_backend/src/images/logo%20positif%20toon.png'}} 
-        style={{height: 200, width: 200}}/>
-              <Text style={styles.subTitle}>Login with your account</Text>
+              <Text style={styles.subTitle}>Login admin</Text>
             </View>
             <View>
-              <Text style={styles.text}>Email</Text>
+              <Text style={styles.text}>username</Text>
               <Item regular
                 style={styles.formItem}>
                 <Input
-                  value={this.state.email}
-
-                  onChangeText={(text) => this.setState({ email: text })}
-                  autoCapitalize='none'
-                  keyboardType='email-address' />
+                  value={this.state.username}
+                  onChangeText={(text) => this.setState({ username: text })}
+                   />
               </Item >
               <Text style={styles.text}>Password</Text>
               <Item regular
@@ -114,12 +97,8 @@ class Login extends React.Component {
               </Item>
               <Button block rounded light danger
                 onPress={() => this.validate(this.state.email)}>
-                <Text style={{ color: '#ffffff' }}>Log In</Text></Button>
-                <Item style={styles.Text}>
-              <Text style={styles.text}>don't have an account yet </Text>
-              <Text style={styles.TextMode}
-                onPress={() => this.props.navigation.navigate('Register')}> Register</Text>
-                </Item>
+                <Text style={{ color: '#ffffff' }}>LogIn</Text></Button>
+              
             </View>
           </View>
         </SafeAreaView>

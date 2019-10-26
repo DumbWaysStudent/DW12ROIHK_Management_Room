@@ -15,6 +15,8 @@ import reducerMyWebtoons from './reducerMyWebtoons';
 import reducerMyEpisodes from './reducerMyEpisodes';
 import reducerMyImages from './reducerMyImage';
 
+import reducerRooms from './reducerRooms';
+
 const reducerRouter = createNavigationReducer(RootNavigator);
 
 const appReducer = combineReducers({
@@ -27,7 +29,8 @@ const appReducer = combineReducers({
   favorites: reducerFavorites,
   myWebtoons: reducerMyWebtoons,
   myEpisodes: reducerMyEpisodes,
-  myImages: reducerMyImages
+  myImages: reducerMyImages,
+  rooms: reducerRooms,
 })
 
 export default appReducer
