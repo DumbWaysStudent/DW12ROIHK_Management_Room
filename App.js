@@ -8,13 +8,13 @@ import ScreenTest from './src/screens/ScreenTest'
 import RootNavigator from './src/navigator/RootNavigator'
 
 
-const AppNav = createReduxContainer(RootNavigator, 'root');
+//const AppNav = createReduxContainer(RootNavigator, 'root');
 
 const mapStateToProps = state => ({
   state: state.router
 });
 
-const AppWithNavigationState = connect(mapStateToProps)(AppNav);
+//const AppWithNavigationState = connect(mapStateToProps)(AppNav);
 
 
 export default class App extends Component {
@@ -22,7 +22,7 @@ export default class App extends Component {
 
     return (
       <Provider store={store}>
-        <AppWithNavigationState />
+        <RootNavigator />
       </Provider>
     )
   }

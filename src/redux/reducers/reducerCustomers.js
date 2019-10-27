@@ -5,101 +5,104 @@ const initialState = {
   isError: false,
   isSuccess: false,
   needRefresh: false,
-  episodes: []
+  customers: []
 };
 
-export default function reducerMyEpisodes(state = initialState, action) {
+export default function reducerMyImages(state = initialState, action) {
   switch (action.type) {
-    case `${types.GET_MY_EPISODES}_PENDING`:
+    case `${types.GET_CUSTOMERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.GET_MY_EPISODES}_FULFILLED`:
+    case `${types.GET_CUSTOMERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: false,
-        episodes: action.payload
+        customers: action.payload
       };
 
-    case `${types.GET_MY_EPISODES}_REJECTED`:
+    case `${types.GET_CUSTOMERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
 
-    //========================add my episode========================//     
-    case `${types.ADD_MY_EPISODES}_PENDING`:
+    //========================add my image========================//           
+    case `${types.ADD_CUSTOMERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.ADD_MY_EPISODES}_FULFILLED`:
+    case `${types.ADD_CUSTOMERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        episodes: action.payload
+        customers: action.payload
       };
 
-    case `${types.ADD_MY_EPISODES}_REJECTED`:
+    case `${types.ADD_CUSTOMERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
-    //========================delete my episode========================//     
-    case `${types.DELETE_MY_EPISODES}_PENDING`:
+
+
+    //========================delete my image========================//           
+    case `${types.DELETE_CUSTOMERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.DELETE_MY_EPISODES}_FULFILLED`:
+    case `${types.DELETE_CUSTOMERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        episodes: action.payload
+        customers: action.payload
       };
 
-    case `${types.DELETE_MY_EPISODES}_REJECTED`:
+    case `${types.DELETE_CUSTOMERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
 
-    //========================Update my episode========================//     
-    case `${types.UPDATE_MY_EPISODES}_PENDING`:
+    //========================Update my image========================//           
+    case `${types.UPDATE_CUSTOMERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.UPDATE_MY_EPISODES}_FULFILLED`:
+    case `${types.UPDATE_CUSTOMERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        episodes: action.payload
+        customers: action.payload
       };
 
-    case `${types.UPDATE_MY_EPISODES}_REJECTED`:
+    case `${types.UPDATE_CUSTOMERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
-    default:
+
+      default:
       return state;
   }
 }

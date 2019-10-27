@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView } from 'react-native';
-import { Card, List, Body, Button, CardItem, Left, Header, Content, Container } from 'native-base'
+import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList } from 'react-native';
+import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item } from 'native-base'
 
 import { connect } from 'react-redux'
 import * as actionRooms from './../redux/actions/actionRooms'
@@ -9,8 +9,8 @@ class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data:[],
-      param:[],
+      data: [],
+      param: [],
       room: [
         {
           name: 'A1',
@@ -25,57 +25,59 @@ class Room extends Component {
   }
 
   async userData() {
-    
-    console.log('here');
+
     const param = {
       token: await AsyncStorage.getItem('token'),
-     // user: await AsyncStorage.getItem('userId')
+      // user: await AsyncStorage.getItem('userId')
     }
 
     await this.setState({ param: param })
     await this.getData()
-    
-    
+
+
   }
- async componentWillMount(){
+  async UNSAFE_componentWillMount() {
     this.userData()
   }
 
   async getData() {
-    
     await this.props.handleGetRooms(this.state.param)
-    
-    await console.log(this.props.rooms.rooms.data);
     await this.setState({ data: this.props.rooms.rooms.data })
   }
 
-  async AddRooms(){
-    await this.props.handleAddRooms(this.state.param)
+  AddRooms() {
+    this.props.navigation.navigate('AddRoom')
+  }
+  editRoom(item) {
+    this.props.navigation.navigate('EditRooms', { room: item })
   }
 
   render() {
     return (
       <Container style={styles.container}>
-      <Header>
-        <Text> Room </Text>
-      </Header>
-      <Content style={{alignSelf: 'center', width: 300, height:50}}>
-       <List style={styles.formAll}
-          dataArray={this.state.data}
-          renderRow={(item) =>
-            <Card style={{alignContent: 'center', width: 300, height:50}}
-            onPress={() => alert('here')}>
-              <CardItem>
-              <Text>{item.room_name}</Text>
-              </CardItem>
-            </Card>
-          }>
-        </List>
-        <Button block small
-                onPress={() => this.AddRooms()}>
-                <Text style={{ color: '#ffffff' }}> Add Room </Text>
-              </Button>
-      </Content>
+        <Header>
+          <Text style={styles.title}> Room </Text>
+        </Header>
+        <Content style={{ width: Dimensions.get('window').width }}>
+          <View style={styles.formAll}>
+            <FlatList
+              data={this.state.data}
+              numColumns={3}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) =>
+                  <Button block light style={{margin: 5, width:100, height:70}}
+                   onPress={() => this.editRoom(item)}>
+                    <Text style={{alignSelf:'center'}}>{item.room_name}</Text>
+                  </Button>
+              } />
+              <Item style={{alignSelf:'center'}}>
+            <Button block small style={{marginTop: 20,  width: 100, height: 40 }}
+              onPress={() => this.AddRooms()}>
+              <Text style={{ color: '#ffffff' }}> Add Room </Text>
+            </Button>
+            </Item>
+          </View>
+        </Content>
       </Container>
     );
   }
@@ -104,13 +106,14 @@ const styles = StyleSheet.create({
   },
   formAll: {
     marginTop: 10,
-    width: 250,
+    alignItems: 'center',
+    alignSelf: 'center'
 
   },
   title: {
-    height: 22,
-    fontSize: 20,
-    color: 'white'
+    fontSize: 24,
+    color: 'white',
+    alignSelf: 'center'
   },
   Slideshow: {
     width: 250,
@@ -130,9 +133,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleAddRooms: (param) => dispatch(actionRooms.handleAddRooms(param)),
-    handleGetRooms: (param) => dispatch(actionRooms.handleGetRooms(param)),
-    handleUpdateRooms: (param) => dispatch(actionRooms.handleUpdateRooms(param))
+    handleGetRooms: (param) => dispatch(actionRooms.handleGetRooms(param))
   }
 }
 

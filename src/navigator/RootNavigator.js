@@ -1,12 +1,12 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import HeaderNav from './HeaderNav'
+import StackNavigator from './StackNavigator'
 import BottomTabNav from './BottomTabNav'
 
 const RootNavigator = createStackNavigator({
-  HeaderNav:{
-    screen: HeaderNav,
+  StackNavigator:{
+    screen: StackNavigator,
   navigationOptions: ({ navigation }) => ({
     header: null
   })

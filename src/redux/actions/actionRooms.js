@@ -5,7 +5,7 @@ export const handleGetRooms = (param) => ({
   type: types.GET_ROOMS,
   payload: axios({
     method: 'GET',
-    url: `http://192.168.0.29:5000/api/v2/rooms`,
+    url: `https://management-room-rest-api.herokuapp.com/api/v2/rooms`,
     headers: {
       Authorization: `bearer ${param.token}`
     }
@@ -16,7 +16,7 @@ export const handleAddRooms = (param) => ({
   type: types.ADD_ROOMS,
   payload: axios({
     method: 'POST',
-    url: `http://192.168.0.29:5000/api/v2/room`,
+    url: `https://management-room-rest-api.herokuapp.com/api/v2/room`,
     headers: {
       Authorization: `bearer ${param.token}`
     },
@@ -28,7 +28,7 @@ export const handleDeleteRooms = (param) => ({
   type: types.DELETE_ROOMS,
   payload: axios({
     method: 'DELETE',
-    url: `http://192.168.0.29:5000/api/v2/room/${param.room}`,
+    url: `https://management-room-rest-api.herokuapp.com/api/v2/room/${param.room}`,
     headers: {
       Authorization: `bearer ${param.token}`
     }
@@ -38,8 +38,8 @@ export const handleDeleteRooms = (param) => ({
 export const handleUpdateRooms = (param) => ({
   type: types.UPDATE_ROOMS,
   payload: axios({
-    method: 'PATCH',
-    url: `http://192.168.0.29:5000/api/v2/room/${param.room}`,
+    method: 'PUT',
+    url: `https://management-room-rest-api.herokuapp.com/api/v2/room/${param.room}`,
     headers: {
       Authorization: `bearer ${param.token}`
     },

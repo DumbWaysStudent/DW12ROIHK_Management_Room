@@ -3,62 +3,65 @@ import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, 
 import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
 
 import { connect } from 'react-redux'
-import * as actionRooms from './../redux/actions/actionRooms'
+import * as actionRooms from '../redux/actions/actionRooms'
 
 
-class AddRoom extends React.Component {
+class EditRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       room_name: '',
+      roomId:'',
       data: []
     };
   }
 
-  validate = (text) => {
-    //  this.setState({ username: text })
-    this.handleLogin()
-  }
 
-  modeIcon() {
-    this.setState(prevState => ({
-      icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
-      passMode: !prevState.passMode
-    }));
-  }
-
-
-  async handleAddRoom() {
-    console.log('here')
-
+  async handleUpdateRoom() {
     const param = {
       token: await AsyncStorage.getItem('token'),
+      room: this.state.roomId,
       data: {
         room_name: this.state.room_name,
       }
-
-
     }
-    console.log('token');
-    await this.props.handleAddRooms(param)
+    await this.props.handleUpdateRooms(param)
+    this.props.navigation.navigate('Room')
+  }
+
+  async handleDeleteRoom() {
+    const param = {
+      token: await AsyncStorage.getItem('token'),
+      room: this.state.roomId,
+    }
+    await this.props.handleDeleteRooms(param)
     this.props.navigation.navigate('Room')
   }
 
 
-  // componentDidMount() {
-  //   this.passLogin()
-  // }
 
+   UNSAFE_componentWillMount() {
+     this.setState({room_name: this.props.navigation.state.params.room.room_name})
+     this.setState({roomId: this.props.navigation.state.params.room.id})
+   }
+
+   UNSAFE_componentWillReceiveProps(nexProps){
+     if(nexProps.navigation.state.params.room !== this.props.navigation.state.params.room){
+      this.setState({room_name: nexProps.navigation.state.params.room.room_name})
+      this.setState({roomId: nexProps.navigation.state.params.room.id})
+     }
+   }
 
 
   render() {
+    
     const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
         <SafeAreaView>
           <View >
             <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Add Room</Text>
+              <Text style={styles.subTitle}>Edit Room</Text>
             </View>
             <View>
               <Text style={styles.text}>Room Name</Text>
@@ -78,10 +81,14 @@ class AddRoom extends React.Component {
               </Left>
               <Right>
                 <Button block rounded light danger
-                  onPress={() => this.handleAddRoom()}>
-                  <Text style={{ color: '#ffffff' }}>Add</Text></Button>
+                  onPress={() => this.handleUpdateRoom()}>
+                  <Text style={{ color: '#ffffff' }}>Edit</Text></Button>
               </Right>
             </Item>
+            <Button block rounded light danger
+            style={styles.marginSubTitle}
+                  onPress={() => this.handleDeleteRoom()}>
+                  <Text style={{ color: '#ffffff' }}>Delete</Text></Button>
           </View>
         </SafeAreaView>
       </Container>
@@ -141,11 +148,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleAddRooms: (param) => dispatch(actionRooms.handleAddRooms(param)),
+    handleUpdateRooms: (param) => dispatch(actionRooms.handleUpdateRooms(param)),
+    handleDeleteRooms: (param) => dispatch(actionRooms.handleDeleteRooms(param))
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddRoom);
+)(EditRoom);

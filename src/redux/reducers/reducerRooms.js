@@ -8,7 +8,7 @@ const initialState = {
   rooms: []
 };
 
-export default function reducerMyImages(state = initialState, action) {
+export default function reducerRooms(state = initialState, action) {
   switch (action.type) {
     case `${types.GET_ROOMS}_PENDING`:
       return {

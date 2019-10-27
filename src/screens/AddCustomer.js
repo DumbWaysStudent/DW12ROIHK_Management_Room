@@ -3,82 +3,82 @@ import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, 
 import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
 
 import { connect } from 'react-redux'
-import * as actionRooms from './../redux/actions/actionRooms'
+import * as actionCustomers from './../redux/actions/actionCustomers'
 
 
-class AddRoom extends React.Component {
+class AddCustomer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      room_name: '',
+      name: '',
+      identityNumber: '',
+      phoneNumber: '',
       data: []
     };
   }
 
-  validate = (text) => {
-    //  this.setState({ username: text })
-    this.handleLogin()
-  }
-
-  modeIcon() {
-    this.setState(prevState => ({
-      icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
-      passMode: !prevState.passMode
-    }));
-  }
-
-
-  async handleAddRoom() {
+  async handleAddCustomer() {
     console.log('here')
 
     const param = {
       token: await AsyncStorage.getItem('token'),
       data: {
-        room_name: this.state.room_name,
+        name: this.state.name,
+        identity_number: this.state.identityNumber,
+        phone_number: this.state.phoneNumber,
       }
 
 
     }
     console.log('token');
-    await this.props.handleAddRooms(param)
-    this.props.navigation.navigate('Room')
+    await this.props.handleAddCustomers(param)
+    this.props.navigation.navigate('Customer')
   }
 
 
-  // componentDidMount() {
-  //   this.passLogin()
-  // }
-
-
-
   render() {
-    const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
         <SafeAreaView>
           <View >
             <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Add Room</Text>
+              <Text style={styles.subTitle}>Add Customer</Text>
             </View>
             <View>
-              <Text style={styles.text}>Room Name</Text>
+            <Text style={styles.text}>Customer Name</Text>
               <Item regular
                 style={styles.formItem}>
                 <Input
-                  value={this.state.room_name}
-                  onChangeText={(text) => this.setState({ room_name: text })}
+                  value={this.state.name}
+                  onChangeText={(text) => this.setState({ name: text })}
+                />
+              </Item >
+            <Text style={styles.text}>Identity Number</Text>
+              <Item regular
+                style={styles.formItem}>
+                <Input
+                  value={this.state.identityNumber}
+                  onChangeText={(text) => this.setState({ identityNumber: text })}
+                />
+              </Item >
+            <Text style={styles.text}>Phone Number</Text>
+              <Item regular
+                style={styles.formItem}>
+                <Input
+                  value={this.state.phoneNumber}
+                  onChangeText={(text) => this.setState({ phoneNumber: text })}
                 />
               </Item >
             </View>
             <Item>
               <Left>
                 <Button block rounded light
-                  onPress={() => this.props.navigation.navigate('Room')}>
+                  onPress={() => this.props.navigation.navigate('Customer')}>
                   <Text style={{ color: 'black' }}>Cancel</Text></Button>
               </Left>
               <Right>
                 <Button block rounded light danger
-                  onPress={() => this.handleAddRoom()}>
+                  onPress={() => this.handleAddCustomer()}>
                   <Text style={{ color: '#ffffff' }}>Add</Text></Button>
               </Right>
             </Item>
@@ -135,17 +135,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Rooms: state.rooms
+    customer: state.customer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleAddRooms: (param) => dispatch(actionRooms.handleAddRooms(param)),
+    handleAddCustomers: (param) => dispatch(actionCustomers.handleAddCustomers(param)),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddRoom);
+)(AddCustomer);

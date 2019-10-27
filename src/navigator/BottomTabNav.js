@@ -43,13 +43,13 @@ const BottomTabNav = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         if (routeName === 'Checkin') {
-          iconName = `square-outline`;
+          iconName = `checkmark-circle-outline`;
         } else if (routeName === 'Room') {
-          iconName = `star-outline`;
+          iconName = `bed`;
         } else if (routeName === 'Customer') {
-          iconName = `contact`;
-      } else if (routeName === 'Setting') {
-        iconName = `contact`;
+          iconName = `people`;
+      } else if (routeName === 'Settings') {
+        iconName = `settings`;
       }
 
         // You can return any component that you like here!
