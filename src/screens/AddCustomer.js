@@ -10,6 +10,7 @@ class AddCustomer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      prevScreen: this.props.navigation.state.params.prevScreen,
       name: '',
       identityNumber: '',
       phoneNumber: '',
@@ -73,7 +74,7 @@ class AddCustomer extends React.Component {
             <Item>
               <Left>
                 <Button block rounded light
-                  onPress={() => this.props.navigation.navigate('Customer')}>
+                  onPress={() => this.props.navigation.navigate(this.state.prevScreen)}>
                   <Text style={{ color: 'black' }}>Cancel</Text></Button>
               </Left>
               <Right>

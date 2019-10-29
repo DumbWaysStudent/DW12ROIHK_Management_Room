@@ -29,8 +29,8 @@ class EditCustomer extends React.Component {
         phone_number: this.state.phoneNumber,
       }
     }
-    
-    
+
+
     await this.props.handleUpdateCustomers(param)
     this.props.navigation.navigate('Customer')
   }
@@ -89,6 +89,7 @@ class EditCustomer extends React.Component {
                 <Input
                   value={this.state.identityNumber}
                   onChangeText={(text) => this.setState({ identityNumber: text })}
+                  keyboardType={"number-pad"}
                 />
               </Item >
               <Text style={styles.text}>Phone Number</Text>
@@ -97,6 +98,7 @@ class EditCustomer extends React.Component {
                 <Input
                   value={this.state.phoneNumber}
                   onChangeText={(text) => this.setState({ phoneNumber: text })}
+                  keyboardType={"number-pad"}
                 />
               </Item >
             </View>

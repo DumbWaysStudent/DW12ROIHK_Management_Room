@@ -8,6 +8,8 @@ import EditRoom from '../screens/EditRooms'
 
 import AddCustomer from '../screens/AddCustomer'
 import EditCustomer from '../screens/EditCustomer'
+import AddOrder from '../screens/AddOrder'
+import Checkout from '../screens/Checkout'
 
 //import ScreenTest from './../screens/ScreenTest';
 
@@ -49,6 +51,18 @@ const StackNavigator = createStackNavigator({
     
   EditCustomer: {
     screen: EditCustomer,
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    }),
+  },
+  AddOrder: {
+    screen: AddOrder,
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    }),
+  },
+  Checkout: {
+    screen: Checkout,
     navigationOptions: ({ navigation }) => ({
       header: null
     }),

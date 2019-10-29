@@ -41,7 +41,7 @@ class Customer extends Component {
   }
 
   AddCustomers() {
-    this.props.navigation.navigate('AddCustomer')
+    this.props.navigation.navigate('AddCustomer',{prevScreen: 'Customer'})
     // await this.props.handleAddRooms(this.state.param)
   }
   editCustomer(item) {

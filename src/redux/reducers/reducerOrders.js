@@ -5,27 +5,27 @@ const initialState = {
   isError: false,
   isSuccess: false,
   needRefresh: false,
-  rooms: []
+  orders: []
 };
 
 export default function reducerRooms(state = initialState, action) {
   switch (action.type) {
-    case `${types.GET_ROOMS}_PENDING`:
+    case `${types.GET_CHECKIN}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.GET_ROOMS}_FULFILLED`:
+    case `${types.GET_CHECKIN}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: false,
-        rooms: action.payload
+        orders: action.payload
       };
 
-    case `${types.GET_ROOMS}_REJECTED`:
+    case `${types.GET_CHECKIN}_REJECTED`:
       return {
         ...state,
         isLoading: false,
@@ -33,46 +33,22 @@ export default function reducerRooms(state = initialState, action) {
       };
 
     //========================add========================//           
-    case `${types.ADD_ROOMS}_PENDING`:
+    case `${types.ADD_ORDERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.ADD_ROOMS}_FULFILLED`:
+    case `${types.ADD_ORDERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        rooms: action.payload
+        orders: action.payload
       };
 
-    case `${types.ADD_ROOMS}_REJECTED`:
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-
-
-    //========================delete========================//           
-    case `${types.DELETE_ROOMS}_PENDING`:
-      return {
-        ...state,
-        isLoading: true
-      };
-
-    case `${types.DELETE_ROOMS}_FULFILLED`:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-        needRefresh: true,
-        rooms: action.payload
-      };
-
-    case `${types.DELETE_ROOMS}_REJECTED`:
+    case `${types.ADD_ORDERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,
@@ -80,22 +56,22 @@ export default function reducerRooms(state = initialState, action) {
       };
 
     //========================Update========================//           
-    case `${types.UPDATE_ROOMS}_PENDING`:
+    case `${types.UPDATE_ORDERS}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
 
-    case `${types.UPDATE_ROOMS}_FULFILLED`:
+    case `${types.UPDATE_ORDERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        rooms: action.payload
+        orders: action.payload
       };
 
-    case `${types.UPDATE_ROOMS}_REJECTED`:
+    case `${types.UPDATE_ORDERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,

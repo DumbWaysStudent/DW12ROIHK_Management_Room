@@ -11,20 +11,7 @@ class AddRoom extends React.Component {
     super(props);
     this.state = {
       room_name: '',
-      data: []
     };
-  }
-
-  validate = (text) => {
-    //  this.setState({ username: text })
-    this.handleLogin()
-  }
-
-  modeIcon() {
-    this.setState(prevState => ({
-      icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
-      passMode: !prevState.passMode
-    }));
   }
 
 
@@ -36,8 +23,6 @@ class AddRoom extends React.Component {
       data: {
         room_name: this.state.room_name,
       }
-
-
     }
     console.log('token');
     await this.props.handleAddRooms(param)

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, SafeAreaView } from 'react-native';
 
 import { connect } from 'react-redux'
-import * as actionTodos from './../redux/actions/actionTodos'
 //import * as actionWebtoons from './../redux/actions/actionWebtoons'
 
 class screenTest extends Component {
