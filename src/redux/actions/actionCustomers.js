@@ -46,3 +46,15 @@ export const handleUpdateCustomers = (param) => ({
     data: param.data
   })
 });
+
+export const handleAddPhotoCustomers = (param) => ({
+  type: types.ADD_PHOTO_CUSTOMERS,
+  payload: axios({
+    method: 'POST',
+    url: `https://management-room-rest-api.herokuapp.com/api/v2/customer/${param.customer}`,
+    headers: {
+      Authorization: `bearer ${param.token}`
+    },
+    data: param.data
+  })
+});

@@ -5,7 +5,8 @@ const initialState = {
   isError: false,
   isSuccess: false,
   needRefresh: false,
-  customers: []
+  customers: [],
+  imageUrl: ''
 };
 
 export default function reducerMyImages(state = initialState, action) {
@@ -32,7 +33,7 @@ export default function reducerMyImages(state = initialState, action) {
         isError: true,
       };
 
-    //========================add my image========================//           
+    //========================add========================//           
     case `${types.ADD_CUSTOMERS}_PENDING`:
       return {
         ...state,
@@ -56,7 +57,7 @@ export default function reducerMyImages(state = initialState, action) {
       };
 
 
-    //========================delete my image========================//           
+    //========================delete========================//           
     case `${types.DELETE_CUSTOMERS}_PENDING`:
       return {
         ...state,
@@ -79,7 +80,7 @@ export default function reducerMyImages(state = initialState, action) {
         isError: true,
       };
 
-    //========================Update my image========================//           
+    //========================Update========================//           
     case `${types.UPDATE_CUSTOMERS}_PENDING`:
       return {
         ...state,
@@ -102,7 +103,33 @@ export default function reducerMyImages(state = initialState, action) {
         isError: true,
       };
 
-      default:
+
+    //========================add photo========================//           
+    case `${types.ADD_PHOTO_CUSTOMERS}_PENDING`:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case `${types.ADD_PHOTO_CUSTOMERS}_FULFILLED`:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+        needRefresh: true,
+        imageUrl: `https://management-room-rest-api.herokuapp.com/${action.payload.data.filePath}`
+      };
+
+    case `${types.ADD_PHOTO_CUSTOMERS}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+
+
+
+    default:
       return state;
   }
 }

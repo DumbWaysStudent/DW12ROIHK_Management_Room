@@ -63,7 +63,6 @@ class Customer extends Component {
                   <CardItem button onPress={() => this.editCustomer(item)}>
                     <Left>
                       <Thumbnail source={{ uri: item.image }} />
-
                       <Body style={{ alignItems: 'flex-start' }}>
                         <Text>Name : {item.name} </Text>
                         <Text>Identity Number : {item.identity_number} </Text>
