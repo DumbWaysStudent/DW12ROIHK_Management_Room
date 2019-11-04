@@ -4,7 +4,7 @@ import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 import { store } from './src/redux/store';
 
-import ScreenTest from './src/screens/ScreenTest'
+import ScreenTest from './src/screens/LoadingScreen'
 import RootNavigator from './src/navigator/RootNavigator'
 
 

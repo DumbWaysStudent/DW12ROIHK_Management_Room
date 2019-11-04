@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList, Modal, ImageBackground } from 'react-native';
 import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item } from 'native-base'
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionRooms from './../redux/actions/actionRooms'
+import AddRoom from './AddRoom'
 
 class Room extends Component {
   constructor(props) {
@@ -20,8 +22,14 @@ class Room extends Component {
           name: 'A2',
           id: 2,
         }
-      ]
+      ],
+      modalVisible: false,
     };
+  }
+
+  setModalVisible(visible) {
+    //this.props.navigation.setParams({ closeModal: true })
+    this.setState({ modalVisible: visible });
   }
 
   async userData() {
@@ -37,6 +45,7 @@ class Room extends Component {
 
   }
   async UNSAFE_componentWillMount() {
+    //this.props.navigation.setParams({ closeModal: null })
     this.userData()
   }
 
@@ -52,12 +61,24 @@ class Room extends Component {
     this.props.navigation.navigate('EditRooms', { room: item })
   }
 
+//   UNSAFE_componentWillReceiveProps(nextProps) {
+//     console.log('nextProps');
+//     console.log(nextProps.navigation.getParam('closeModal'));
+//     if (this.props.navigation.getParam('closeModal') == true) {
+//       console.log('roomModal')
+//       this.setState({ modalVisible: !this.state.modalVisible })
+//       this.props.navigation.setParams({ closeModal: false })
+//   }
+// }
   render() {
     return (
       <Container style={styles.container}>
-        <Header>
-          <Text style={styles.title}> Room </Text>
-        </Header>
+      <LinearGradient style={{width: Dimensions.get('window').width,}}
+        colors={['#082641', '#202060']}>
+          <Header style={styles.Header}>
+            <Text style={styles.title}> Customer </Text>
+          </Header>
+        </LinearGradient>
         <Content style={{ width: Dimensions.get('window').width }}>
           <View style={styles.formAll}>
             <FlatList
@@ -65,16 +86,22 @@ class Room extends Component {
               numColumns={3}
               keyExtractor={item => item.id}
               renderItem={({ item }) =>
-                  <Button block light style={{margin: 5, width:100, height:70}}
-                   onPress={() => this.editRoom(item)}>
-                    <Text style={{alignSelf:'center'}}>{item.room_name}</Text>
-                  </Button>
+                <Button block light style={styles.room}
+                  onPress={() => this.editRoom(item)}>
+                  <Text style={{
+                    alignSelf: 'center',
+                    color: 'white',
+                    fontFamily: 'Italianno-Regular-OTF',
+                    fontSize: 24,
+                    width: 30
+                  }}>{item.room_name}</Text>
+                </Button>
               } />
-              <Item style={{alignSelf:'center'}}>
-            <Button block small style={{marginTop: 20,  width: 100, height: 40 }}
-              onPress={() => this.AddRooms()}>
-              <Text style={{ color: '#ffffff' }}> Add Room </Text>
-            </Button>
+            <Item style={{ alignSelf: 'center' }}>
+              <Button block small style={styles.Button}
+                onPress={() => this.AddRooms()}>
+                <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 17 }}> Add Room </Text>
+              </Button>
             </Item>
           </View>
         </Content>
@@ -89,20 +116,19 @@ const styles = StyleSheet.create({
     //height: 500
   },
   Header: {
-    backgroundColor: '#ff6e6e',
+    backgroundColor: 'transparent',
   },
-  headerSlide: {
-    height: 210,
-    width: Dimensions.get('window').width,
-    alignSelf: 'center',
-    backgroundColor: '#ff6e6e',
+  room: {
+    margin: 5,
+    width: 100,
+    height: 70,
+    backgroundColor: '#082641',
   },
-  formSearch: {
-    marginVertical: 10
-  },
-  formFav: {
-    padding: 3,
-    backgroundColor: '#ff6e6e'
+  Button: {
+    marginTop: 20,
+    width: 100,
+    height: 40,
+    backgroundColor: '#711f07'
   },
   formAll: {
     marginTop: 10,
@@ -111,9 +137,10 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 24,
-    color: 'white',
-    alignSelf: 'center'
+    fontSize: 34,
+    color: '#e4ab74',
+    alignSelf: 'center',
+    fontFamily: 'pinyon-script.regular'
   },
   Slideshow: {
     width: 250,

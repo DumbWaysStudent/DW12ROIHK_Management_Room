@@ -1,7 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Card, CardItem } from 'native-base';
 import moment from "moment";
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionOrders from '../redux/actions/actionOrders'
@@ -72,51 +73,56 @@ class Checkout extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        <SafeAreaView>
-          <View >
-            <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Checkin</Text>
+        <Card style={styles.innerContainer}>
+          <LinearGradient style={styles.innerContainer}
+            colors={['#f1c550', '#fff9e0', '#f1c550']}>
+            <View >
+              <View style={[styles.marginTitle]}>
+                <Text style={styles.subTitle}>Checkin</Text>
+              </View>
+              <View>
+                <Text style={styles.text}>Room Name</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input disabled
+                    style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.room_name}
+                    onChangeText={(text) => this.setState({ room_name: text })}
+                  />
+                </Item >
+                <Text style={styles.text}>Customer</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input disabled
+                    style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.customer}
+                    onChangeText={(text) => this.setState({ customer: text })}
+                  />
+                </Item >
+                <Text style={styles.text}>Duration (minutes)</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input disabled
+                    style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.duration}
+                    onChangeText={(text) => this.setState({ duration: text })}
+                  />
+                </Item >
+              </View>
+              <CardItem style={{ backgroundColor: 'transparent' }}>
+                <Item>
+                  <Button block style={styles.ButtonCancel}
+                    onPress={() => this.props.navigation.navigate('Checkin')}>
+                    <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Cancel</Text></Button>
+                  <Button block
+                    style={styles.Button}
+                    onPress={() => this.handleCheckout()}>
+                    <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Checkout</Text></Button>
+                </Item>
+              </CardItem>
             </View>
-            <View>
-              <Text style={styles.text}>Room Name</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input disabled
-                  value={this.state.room_name}
-                  onChangeText={(text) => this.setState({ room_name: text })}
-                />
-              </Item >
-              <Text style={styles.text}>Customer</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input disabled
-                  value={this.state.customer}
-                  onChangeText={(text) => this.setState({ customer: text })}
-                />
-              </Item >
-              <Text style={styles.text}>Duration (minutes)</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input disabled
-                  value={this.state.duration}
-                  onChangeText={(text) => this.setState({ duration: text })}
-                />
-              </Item >
-            </View>
-            <Item>
-              <Left>
-                <Button block rounded light
-                  onPress={() => this.props.navigation.navigate('Checkin')}>
-                  <Text style={{ color: 'black' }}>Cancel</Text></Button>
-              </Left>
-              <Right>
-                <Button block rounded light danger
-                  onPress={() => this.handleCheckout()}>
-                  <Text style={{ color: '#ffffff' }}>Checkout</Text></Button>
-              </Right>
-            </Item>
-          </View>
-        </SafeAreaView>
+          </LinearGradient>
+        </Card>
       </Container>
     );
   }
@@ -124,10 +130,15 @@ class Checkout extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    width: Dimensions.get('window').width,
-    paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  innerContainer: {
+    alignSelf: 'center',
+    width: 320,
+    height: 390,
+    paddingHorizontal: 10
   },
   marginTitle: {
     alignItems: 'center',
@@ -138,14 +149,19 @@ const styles = StyleSheet.create({
     marginBottom: 60
   },
   title: {
-    fontSize: 50
+    fontSize: 32,
+    fontFamily: 'Italianno-Regular-OTF',
   },
   text: {
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    fontSize: 18,
   },
   subTitle: {
-    fontSize: 20,
+    fontSize: 40,
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+
   },
   box: {
     //borderColor: 'white',
@@ -155,15 +171,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     //borderColor: 'white'
   },
-  TextMode: {
-    color: 'blue',
+  Button: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#711f07'
+  },
+  ButtonCancel: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffff'
   },
   Text: {
     marginTop: 20,
     alignSelf: 'center',
+
   }
 })
-
 
 
 const mapStateToProps = state => {

@@ -4,6 +4,7 @@ import {
   Card, List, Body, Button, CardItem,
   Left, Header, Content, Container, Item, Right, Thumbnail, Fab, Icon
 } from 'native-base'
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionCustomers from './../redux/actions/actionCustomers'
@@ -51,9 +52,12 @@ class Customer extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Header>
-          <Text style={styles.title}> Customer </Text>
-        </Header>
+        <LinearGradient style={{width: Dimensions.get('window').width,}}
+        colors={['#082641', '#202060']}>
+          <Header style={styles.Header}>
+            <Text style={styles.title}> Customer </Text>
+          </Header>
+        </LinearGradient>
           <View style={styles.formAll}>
             <FlatList
               data={this.state.data}
@@ -64,9 +68,9 @@ class Customer extends Component {
                     <Left>
                       <Thumbnail source={{ uri: item.image }} />
                       <Body style={{ alignItems: 'flex-start' }}>
-                        <Text>Name : {item.name} </Text>
-                        <Text>Identity Number : {item.identity_number} </Text>
-                        <Text>Phone Number : {item.phone_number} </Text>
+                        <Text style={styles.Text}>Name : {item.name} </Text>
+                        <Text style={styles.Text}>Identity Number : {item.identity_number} </Text>
+                        <Text style={styles.Text}>Phone Number : {item.phone_number} </Text>
                       </Body>
                     </Left>
                   </CardItem>
@@ -74,7 +78,7 @@ class Customer extends Component {
               } />
           </View>
         <Fab
-            style={{ backgroundColor: '#5067FF' }}
+            style={{ backgroundColor: '#711f07' }}
             position="bottomRight"
             onPress={() => this.AddCustomers()}>
             <Icon name="add" />
@@ -87,24 +91,11 @@ class Customer extends Component {
 const styles = StyleSheet.create({
   container: {
     width: Dimensions.get('window').width,
-    flex: 1,
+    //flex: 1,
     //height: 500
   },
   Header: {
-    backgroundColor: '#ff6e6e',
-  },
-  headerSlide: {
-    height: 210,
-    width: Dimensions.get('window').width,
-    alignSelf: 'center',
-    backgroundColor: '#ff6e6e',
-  },
-  formSearch: {
-    marginVertical: 10
-  },
-  formFav: {
-    padding: 3,
-    backgroundColor: '#ff6e6e'
+    backgroundColor: 'transparent',
   },
   formAll: {
     marginTop: 10,
@@ -112,14 +103,17 @@ const styles = StyleSheet.create({
     // height: 500,
   },
   title: {
-    fontSize: 20,
-    color: 'white',
-    alignSelf: 'center'
+    fontSize: 34,
+    color: '#e4ab74',
+    alignSelf: 'center',
+    fontFamily: 'pinyon-script.regular'
   },
   Slideshow: {
     width: 250,
   },
-  favBtn: {
+  Text: {
+    fontFamily: 'Italianno-Regular-OTF',
+     fontSize: 20 
   },
   ListDiv: {
     backgroundColor: '#ff6e6e',

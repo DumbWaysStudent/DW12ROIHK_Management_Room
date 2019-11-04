@@ -13,6 +13,7 @@ export default function reducerRooms(state = initialState, action) {
     case `${types.GET_CHECKIN}_PENDING`:
       return {
         ...state,
+        isSuccess: false,
         isLoading: true
       };
 
@@ -36,6 +37,7 @@ export default function reducerRooms(state = initialState, action) {
     case `${types.ADD_ORDERS}_PENDING`:
       return {
         ...state,
+        isSuccess: false,
         isLoading: true
       };
 
@@ -59,6 +61,7 @@ export default function reducerRooms(state = initialState, action) {
     case `${types.UPDATE_ORDERS}_PENDING`:
       return {
         ...state,
+        isSuccess: false,
         isLoading: true
       };
 

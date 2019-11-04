@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Card, CardItem } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionRooms from './../redux/actions/actionRooms'
@@ -26,6 +27,10 @@ class AddRoom extends React.Component {
     }
     console.log('token');
     await this.props.handleAddRooms(param)
+    console.log('add done');
+    // this.props.navigation.setParams({ closeModal: true })
+    // console.log('close Modal');
+
     this.props.navigation.navigate('Room')
   }
 
@@ -40,35 +45,36 @@ class AddRoom extends React.Component {
     const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
-        <SafeAreaView>
-          <View >
-            <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Add Room</Text>
+        <Card style={styles.innerContainer}>
+          <LinearGradient style={styles.innerContainer}
+            colors={['#f1c550', '#fff9e0', '#f1c550']}>
+            <View >
+              <View style={[styles.marginTitle]}>
+                <Text style={styles.subTitle}>Add Room</Text>
+              </View>
+              <View>
+                <Text style={styles.text}>Room Name</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input
+                    value={this.state.room_name}
+                    onChangeText={(text) => this.setState({ room_name: text })}
+                  />
+                </Item >
+              </View>
+              <CardItem style={{backgroundColor: 'transparent'}}>
+                <Item>
+                  <Button block style={styles.ButtonCancel}
+                    onPress={() => this.props.navigation.navigate('Room')}>
+                    <Text style={{ color: 'black' }}>Cancel</Text></Button>
+                  <Button block style={styles.Button}
+                    onPress={() => this.handleAddRoom()}>
+                    <Text style={{ color: '#ffffff' }}>Add</Text></Button>
+                </Item>
+              </CardItem>
             </View>
-            <View>
-              <Text style={styles.text}>Room Name</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input
-                  value={this.state.room_name}
-                  onChangeText={(text) => this.setState({ room_name: text })}
-                />
-              </Item >
-            </View>
-            <Item>
-              <Left>
-                <Button block rounded light
-                  onPress={() => this.props.navigation.navigate('Room')}>
-                  <Text style={{ color: 'black' }}>Cancel</Text></Button>
-              </Left>
-              <Right>
-                <Button block rounded light danger
-                  onPress={() => this.handleAddRoom()}>
-                  <Text style={{ color: '#ffffff' }}>Add</Text></Button>
-              </Right>
-            </Item>
-          </View>
-        </SafeAreaView>
+          </LinearGradient>
+        </Card>
       </Container>
     );
   }
@@ -76,28 +82,37 @@ class AddRoom extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    width: Dimensions.get('window').width,
+
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  innerContainer: {
+    alignSelf: 'center',
+    width: 320,
+    height: 250,
     paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
+    backgroundColor: '#ffffff',
   },
   marginTitle: {
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
-  marginSubTitle: {
-    marginTop: 80,
-    marginBottom: 60
+  delete: {
+    alignSelf: 'center',
+    width: 230
   },
   title: {
     fontSize: 50
   },
   text: {
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    fontSize: 20
   },
   subTitle: {
-    fontSize: 20,
+    fontSize: 32,
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF'
   },
   box: {
     //borderColor: 'white',
@@ -106,6 +121,7 @@ const styles = StyleSheet.create({
   formItem: {
     marginBottom: 10,
     //borderColor: 'white'
+
   },
   TextMode: {
     color: 'blue',
@@ -113,7 +129,19 @@ const styles = StyleSheet.create({
   Text: {
     marginTop: 20,
     alignSelf: 'center',
-  }
+  },
+  Button: {
+    marginTop: 20,
+    width: 130,
+    height: 40,
+    backgroundColor: '#711f07'
+  },
+  ButtonCancel: {
+    marginTop: 20,
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffff'
+  },
 })
 
 

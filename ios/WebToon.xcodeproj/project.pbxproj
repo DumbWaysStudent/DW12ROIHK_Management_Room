@@ -34,6 +34,12 @@
 		7B3097E3E0CC42E194D1C49F /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC752093E6A4305A2154CA0 /* rubicon-icon-font.ttf */; };
 		5909770F99CB419BB91BB2A3 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 545EA7EB001541E09163EBEA /* SimpleLineIcons.ttf */; };
 		5F2FCF1E519647BEA7D4FEC1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F50EC5FA1BDE4928993F47F0 /* Zocial.ttf */; };
+		D166B841F9E04E288EBA8655 /* BodoniFLF-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 024880B288A84FA88CB64CBA /* BodoniFLF-Bold.ttf */; };
+		6D728AB563594F0284FC6C8E /* BodoniFLF-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7264307E334C4A1495D39ACB /* BodoniFLF-BoldItalic.ttf */; };
+		5B12F113628C41E1B26E0160 /* BodoniFLF-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFBC5F2400AE4529BCC58D1A /* BodoniFLF-Italic.ttf */; };
+		E6391A8974C94023A69FD8A9 /* BodoniFLF-Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39BF0CDF4E6F4DCD8458FF42 /* BodoniFLF-Roman.ttf */; };
+		29AB622597AC46059CFFBB0A /* Italianno-Regular-OTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7D3C56CC17ED4E9FBC7335D4 /* Italianno-Regular-OTF.otf */; };
+		C9519910D13044838526E1A6 /* pinyon-script.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FCEEF0C9AA2460689708390 /* pinyon-script.regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +94,12 @@
 		2EC752093E6A4305A2154CA0 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		545EA7EB001541E09163EBEA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F50EC5FA1BDE4928993F47F0 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		024880B288A84FA88CB64CBA /* BodoniFLF-Bold.ttf */ = {isa = PBXFileReference; name = "BodoniFLF-Bold.ttf"; path = "../assets/fonts/BodoniFLF-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7264307E334C4A1495D39ACB /* BodoniFLF-BoldItalic.ttf */ = {isa = PBXFileReference; name = "BodoniFLF-BoldItalic.ttf"; path = "../assets/fonts/BodoniFLF-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FFBC5F2400AE4529BCC58D1A /* BodoniFLF-Italic.ttf */ = {isa = PBXFileReference; name = "BodoniFLF-Italic.ttf"; path = "../assets/fonts/BodoniFLF-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		39BF0CDF4E6F4DCD8458FF42 /* BodoniFLF-Roman.ttf */ = {isa = PBXFileReference; name = "BodoniFLF-Roman.ttf"; path = "../assets/fonts/BodoniFLF-Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7D3C56CC17ED4E9FBC7335D4 /* Italianno-Regular-OTF.otf */ = {isa = PBXFileReference; name = "Italianno-Regular-OTF.otf"; path = "../assets/fonts/Italianno-Regular-OTF.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4FCEEF0C9AA2460689708390 /* pinyon-script.regular.ttf */ = {isa = PBXFileReference; name = "pinyon-script.regular.ttf"; path = "../assets/fonts/pinyon-script.regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +229,12 @@
 				2EC752093E6A4305A2154CA0 /* rubicon-icon-font.ttf */,
 				545EA7EB001541E09163EBEA /* SimpleLineIcons.ttf */,
 				F50EC5FA1BDE4928993F47F0 /* Zocial.ttf */,
+				024880B288A84FA88CB64CBA /* BodoniFLF-Bold.ttf */,
+				7264307E334C4A1495D39ACB /* BodoniFLF-BoldItalic.ttf */,
+				FFBC5F2400AE4529BCC58D1A /* BodoniFLF-Italic.ttf */,
+				39BF0CDF4E6F4DCD8458FF42 /* BodoniFLF-Roman.ttf */,
+				7D3C56CC17ED4E9FBC7335D4 /* Italianno-Regular-OTF.otf */,
+				4FCEEF0C9AA2460689708390 /* pinyon-script.regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -377,6 +395,12 @@
 				7B3097E3E0CC42E194D1C49F /* rubicon-icon-font.ttf in Resources */,
 				5909770F99CB419BB91BB2A3 /* SimpleLineIcons.ttf in Resources */,
 				5F2FCF1E519647BEA7D4FEC1 /* Zocial.ttf in Resources */,
+				D166B841F9E04E288EBA8655 /* BodoniFLF-Bold.ttf in Resources */,
+				6D728AB563594F0284FC6C8E /* BodoniFLF-BoldItalic.ttf in Resources */,
+				5B12F113628C41E1B26E0160 /* BodoniFLF-Italic.ttf in Resources */,
+				E6391A8974C94023A69FD8A9 /* BodoniFLF-Roman.ttf in Resources */,
+				29AB622597AC46059CFFBB0A /* Italianno-Regular-OTF.otf in Resources */,
+				C9519910D13044838526E1A6 /* pinyon-script.regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

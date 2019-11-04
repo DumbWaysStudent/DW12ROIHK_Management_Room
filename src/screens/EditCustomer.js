@@ -1,19 +1,20 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground, Platform } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right, Thumbnail } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Thumbnail, Card, CardItem, Body } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionCustomers from '../redux/actions/actionCustomers'
 
 
-const creatFormData = (photo) =>{
+const creatFormData = (photo) => {
   const data = new FormData();
   data.append("profileImage", {
     name: photo.fileName,
     type: photo.type,
     uri:
-    Platform.OS == "android" ? photo.uri : photo.uri.replace("file://", "")
+      Platform.OS == "android" ? photo.uri : photo.uri.replace("file://", "")
   })
   return data
 }
@@ -67,26 +68,19 @@ class EditCustomer extends React.Component {
     });
   };
 
-  async UploadPhotoCustomers(){
-    console.log("Upload Photo");
+  async UploadPhotoCustomers() {
     const param = {
       token: await AsyncStorage.getItem('token'),
       customer: this.state.customerId,
-      data: await creatFormData(this.state.filePath) 
+      data: await creatFormData(this.state.filePath)
     }
-    console.log('here');
-    
-    console.log(param);
-    
     await this.props.handleAddPhotoCustomers(param)
-    await this.setState({photoCustomer: this.props.customers.imageUrl})
+    await this.setState({ photoCustomer: this.props.customers.imageUrl })
     console.log(this.state.photoCustomer);
-    
+
   }
 
   async handleUpdateCustomer() {
-    console.log('start');
-    
     await this.UploadPhotoCustomers()
     const param = {
       token: await AsyncStorage.getItem('token'),
@@ -100,8 +94,8 @@ class EditCustomer extends React.Component {
     }
     await this.props.handleUpdateCustomers(param)
     this.props.navigation.navigate('Customer')
-    
-    await this.setState({photoCustomer: ''})
+
+    await this.setState({ photoCustomer: '' })
   }
 
   async handleDeleteCustomer() {
@@ -120,6 +114,11 @@ class EditCustomer extends React.Component {
     this.setState({ name: this.props.navigation.state.params.customer.name })
     this.setState({ identityNumber: this.props.navigation.state.params.customer.identity_number })
     this.setState({ phoneNumber: this.props.navigation.state.params.customer.phone_number })
+    this.setState({
+      filePath: {
+        uri: this.props.navigation.state.params.customer.image
+      }
+    })
     this.setState({ customerId: this.props.navigation.state.params.customer.id })
   }
 
@@ -128,6 +127,11 @@ class EditCustomer extends React.Component {
       this.setState({ name: this.props.navigation.state.params.customer.name })
       this.setState({ identityNumber: this.props.navigation.state.params.customer.identity_number })
       this.setState({ phoneNumber: this.props.navigation.state.params.customer.phone_number })
+      this.setState({
+        filePath: {
+          uri: this.props.navigation.state.params.customer.image
+        }
+      })
       this.setState({ customerId: this.props.navigation.state.params.customer.id })
     }
   }
@@ -135,67 +139,72 @@ class EditCustomer extends React.Component {
 
   render() {
 
-    const { label, icon, onChange } = this.props;
+
     return (
-      <Container style={styles.container}>
-        <SafeAreaView>
-          <View >
-            <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Edit Customer</Text>
+      <Container style={styles.container}
+        style={styles.container}>
+        <Card style={styles.innerContainer}>
+          <LinearGradient style={styles.innerContainer}
+            colors={['#f1c550', '#fff9e0', '#f1c550']}>
+            <View >
+              <View style={[styles.marginTitle]}>
+                <Text style={styles.title}>Edit Customer</Text>
+              </View>
+              <View>
+                <Text style={styles.text}>Customer Name</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.name}
+                    onChangeText={(text) => this.setState({ name: text })}
+                  />
+                </Item >
+                <Text style={styles.text}>Identity Number</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.identityNumber}
+                    onChangeText={(text) => this.setState({ identityNumber: text })}
+                    keyboardType={"number-pad"}
+                  />
+                </Item >
+                <Text style={styles.text}>Phone Number</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.phoneNumber}
+                    onChangeText={(text) => this.setState({ phoneNumber: text })}
+                    keyboardType={"number-pad"}
+                  />
+                </Item >
+                <CardItem style={{ backgroundColor: 'transparent' }}>
+                  <Button transparent block style={{ width: 100, height: 100 }}
+                    onPress={this.chooseFile.bind(this)}>
+                    <Image style={{ width: 100, height: 100 }}
+                      source={{ uri: this.state.filePath.uri }} />
+                  </Button>
+                </CardItem>
+              </View>
+              <CardItem style={{ backgroundColor: 'transparent' }}>
+                <Item style={{borderColor: 'transparent' }}>
+                  <Button block style={styles.ButtonCancel}
+                    onPress={() => this.props.navigation.navigate('Customer')}>
+                    <Text style={{ color: 'black' }}>Cancel</Text></Button>
+                  <Button block
+                    style={styles.Button}
+                    onPress={() => this.handleAddCustomer()}>
+                    <Text style={{ color: '#ffffff' }}>Add</Text></Button>
+                </Item>
+              </CardItem>
+              <Body>
+                <Button block
+                  style={styles.Button}
+                  onPress={() => this.handleDeleteCustomer()}>
+                  <Text style={{ color: '#ffffff' }}>Delete</Text></Button>
+              </Body>
             </View>
-            <View>
-              <Text style={styles.text}>Customer Name</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input
-                  value={this.state.name}
-                  onChangeText={(text) => this.setState({ name: text })}
-                />
-              </Item >
-              <Text style={styles.text}>Identity Number</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input
-                  value={this.state.identityNumber}
-                  onChangeText={(text) => this.setState({ identityNumber: text })}
-                  keyboardType={"number-pad"}
-                />
-              </Item >
-              <Text style={styles.text}>Phone Number</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input
-                  value={this.state.phoneNumber}
-                  onChangeText={(text) => this.setState({ phoneNumber: text })}
-                  keyboardType={"number-pad"}
-                />
-              </Item >
-              <Item >
-              <Button transparent block style={{width: 100, height: 100}}
-              onPress={this.chooseFile.bind(this)}>
-                <Image style={{width: 100, height: 100}}
-                  source={{ uri: this.state.filePath.uri }}/>
-              </Button>
-              </Item>
-            </View>
-            <Item>
-              <Left>
-                <Button block rounded light
-                  onPress={() => this.props.navigation.navigate('Customer')}>
-                  <Text style={{ color: 'black' }}>Cancel</Text></Button>
-              </Left>
-              <Right>
-                <Button block rounded light danger
-                  onPress={() => this.handleUpdateCustomer()}>
-                  <Text style={{ color: '#ffffff' }}>Edit</Text></Button>
-              </Right>
-            </Item>
-            <Button block rounded light danger
-              style={styles.marginSubTitle}
-              onPress={() => this.handleDeleteCustomer()}>
-              <Text style={{ color: '#ffffff' }}>Delete</Text></Button>
-          </View>
-        </SafeAreaView>
+          </LinearGradient>
+        </Card>
       </Container>
     );
   }
@@ -203,10 +212,15 @@ class EditCustomer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    width: Dimensions.get('window').width,
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  innerContainer: {
+    alignSelf: 'center',
+    width: 320,
+    height: 550,
     paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
   },
   marginTitle: {
     alignItems: 'center',
@@ -217,14 +231,13 @@ const styles = StyleSheet.create({
     marginBottom: 60
   },
   title: {
-    fontSize: 50
+    fontSize: 32,
+    fontFamily: 'Italianno-Regular-OTF',
   },
   text: {
     //color: 'white',
-  },
-  subTitle: {
-    fontSize: 20,
-    //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    fontSize: 18,
   },
   box: {
     //borderColor: 'white',
@@ -234,8 +247,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     //borderColor: 'white'
   },
-  TextMode: {
-    color: 'blue',
+  Button: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#711f07'
+  },
+  ButtonCancel: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffff'
   },
   Text: {
     marginTop: 20,

@@ -1,7 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground, FlatList, Picker } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Body, CardItem, Card } from 'native-base';
 import moment from "moment";
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionOrders from './../redux/actions/actionOrders'
@@ -25,7 +26,7 @@ class AddOrder extends React.Component {
     });
   }
   async handleAddOrder() {
-    console.log('here')
+    console.log(this.state.duration)
 
     const param = {
       token: await AsyncStorage.getItem('token'),
@@ -35,14 +36,15 @@ class AddOrder extends React.Component {
         is_done: false,
         is_booked: true,
         duration: Number(this.state.duration),
-        order_end_time: moment().add(Number(this.state.duration), 'm')
+        order_end_time: new moment().add(Number(this.state.duration), 'm').toJSON()
       }
 
     }
     console.log(param);
     await this.props.handleAddOrder(param)
-    this.setState({duration: 0})
     this.props.navigation.navigate('Checkin')
+
+
   }
   async userData() {
 
@@ -70,6 +72,7 @@ class AddOrder extends React.Component {
     let data = this.props.navigation.state.params.room
     this.setState({ room_name: data.room_name })
     this.setState({ roomId: data.id })
+    this.setState({ duration: 0 })
 
     await this.userData()
 
@@ -86,41 +89,48 @@ class AddOrder extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        <SafeAreaView>
+        <Card style={styles.innerContainer}>
+        <LinearGradient style={styles.innerContainer}
+          colors={['#f1c550', '#fff9e0', '#f1c550']}>
           <View >
             <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Checkin</Text>
+              <Text style={styles.title}>Checkin</Text>
             </View>
             <View>
               <Text style={styles.text}>Room Name</Text>
               <Item regular
                 style={styles.formItem}>
                 <Input disabled
+                  style={{ fontFamily: 'BodoniFLF-Roman' }}
                   value={this.state.room_name}
                   onChangeText={(text) => this.setState({ room_name: text })}
                 />
               </Item >
               <Item>
                 <Left>
-                <Text style={styles.text}>Customer</Text>
+                  <Text style={styles.text}>Customer</Text>
                 </Left>
                 <Right>
-                  <Item onPress={()=> this.props.navigation.navigate('AddCustomer', {prevScreen: 'AddOrder'})}>
-                  <Text> Add  </Text><Icon name='add' />
+                  <Item
+                    onPress={() => this.props.navigation.navigate('AddCustomer', { prevScreen: 'AddOrder' })}>
+                    <Text style={{ fontFamily: 'BodoniFLF-Roman' }}> Add  </Text><Icon name='add' />
                   </Item>
                 </Right>
               </Item>
               <Item regular
                 style={styles.formItem}>
                 <Picker
+                  textStyle={{ fontFamily: 'BodoniFLF-Roman' }}
                   mode="dropdown"
-                  style={{ width: 340, height: 40 }}
+                  style={{ width: 300, height: 40 }}
                   selectedValue={this.state.selected}
                   onValueChange={this.onValueChange.bind(this)}
+                  itemStyle={{ fontFamily: 'BodoniFLF-Roman' }}
                 >
                   {this.state.data.map((data, i) => {
                     return (
-                      <Picker.Item label={data.name} value={data.id} key={i} />
+                      <Picker.Item 
+                        label={data.name} value={data.id} key={i} />
                     );
                   }
                   )}
@@ -130,26 +140,27 @@ class AddOrder extends React.Component {
               <Item regular
                 style={styles.formItem}>
                 <Input
+                  style={{ fontFamily: 'BodoniFLF-Roman' }}
                   value={this.state.duration}
                   onChangeText={(text) => this.setState({ duration: text })}
                   keyboardType={"number-pad"}
                 />
               </Item >
             </View>
-            <Item>
-              <Left>
-                <Button block rounded light
+            <CardItem style={{backgroundColor: 'transparent'}}>
+              <Item>
+                <Button block style={styles.ButtonCancel}
                   onPress={() => this.props.navigation.navigate('Checkin')}>
-                  <Text style={{ color: 'black' }}>Cancel</Text></Button>
-              </Left>
-              <Right>
-                <Button block rounded light danger
+                  <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16  }}>Cancel</Text></Button>
+                <Button block
+                  style={styles.Button}
                   onPress={() => this.handleAddOrder()}>
-                  <Text style={{ color: '#ffffff' }}>Add</Text></Button>
-              </Right>
-            </Item>
+                  <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16  }}>Add</Text></Button>
+              </Item>
+            </CardItem>
           </View>
-        </SafeAreaView>
+        </LinearGradient>
+        </Card>
       </Container>
     );
   }
@@ -157,10 +168,15 @@ class AddOrder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    width: Dimensions.get('window').width,
-    paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  innerContainer: {
+    alignSelf: 'center',
+    width: 320,
+    height: 370,
+    paddingHorizontal: 10
   },
   marginTitle: {
     alignItems: 'center',
@@ -171,14 +187,19 @@ const styles = StyleSheet.create({
     marginBottom: 60
   },
   title: {
-    fontSize: 50
+    fontSize: 32,
+    fontFamily: 'Italianno-Regular-OTF',
   },
   text: {
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    fontSize: 18,
   },
   subTitle: {
-    fontSize: 20,
+    fontSize: 40,
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    
   },
   box: {
     //borderColor: 'white',
@@ -188,12 +209,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     //borderColor: 'white'
   },
-  TextMode: {
-    color: 'blue',
+  Button: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#711f07'
+  },
+  ButtonCancel: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffff'
   },
   Text: {
     marginTop: 20,
     alignSelf: 'center',
+
   }
 })
 

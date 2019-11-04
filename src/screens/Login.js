@@ -5,6 +5,8 @@ import { Item, Input, Button, Icon, Container } from 'native-base';
 import { connect } from 'react-redux'
 import * as actionUsers from './../redux/actions/actionUsers'
 
+//create manager mode
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -17,10 +19,7 @@ class Login extends React.Component {
     };
   }
 
-  validate = (text) => {
-    //  this.setState({ username: text })
-      this.handleLogin()
-  }
+  
 
   modeIcon() {
     this.setState(prevState => ({
@@ -41,7 +40,8 @@ class Login extends React.Component {
         ['userName', dataUser.username]
       ])
       // await AsyncStorage.setItem('userId', this.props.usersLocal.users.data.user.id)
-      this.props.navigation.navigate('BottomTabNav')
+      
+      this.props.navigation.navigate('LoadingScreen', { refresh: true })
       //alert('here')
     } else {
       alert(this.props.usersLocal.users.data.message)
@@ -61,44 +61,46 @@ class Login extends React.Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.passLogin()
-  // }
+  componentDidMount() {
+    this.props.navigation.setParams({ refresh: true })
+  }
 
 
 
   render() {
-    const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
         <SafeAreaView>
           <View >
             <View style={[styles.marginTitle]}>
-              <Text style={styles.subTitle}>Login admin</Text>
+              <Image
+                source={{ uri: 'https://raw.githubusercontent.com/DumbWaysStudent/DW12ROIHK_Management_Room/master/src/images/WhatsApp%20Image%202019-10-30%20at%2016.24.02.jpeg' }}
+                style={{ height: 180, width: 180 }} />
+              <Text style={styles.title}>Front Desk</Text>
             </View>
             <View>
-              <Text style={styles.text}>username</Text>
+              <Text style={styles.text}>Username</Text>
               <Item regular
                 style={styles.formItem}>
-                <Input
+                <Input style={{fontFamily: 'BodoniFLF-Roman', fontSize: 20 }}
                   value={this.state.username}
                   onChangeText={(text) => this.setState({ username: text })}
-                   />
+                />
               </Item >
               <Text style={styles.text}>Password</Text>
               <Item regular
                 style={styles.formItem}>
-                <Input
+                <Input style={{fontFamily: 'BodoniFLF-Roman', fontSize: 20 }}
                   secureTextEntry={this.state.passMode}
                   value={this.state.password}
                   onChangeText={(text) => this.setState({ password: text })}
                   keyboardType='default' />
                 <Icon name={this.state.icon} onPress={() => this.modeIcon()} />
               </Item>
-              <Button block rounded light danger
-                onPress={() => this.validate(this.state.email)}>
-                <Text style={{ color: '#ffffff' }}>LogIn</Text></Button>
-              
+              <Button block style={styles.Button}
+                onPress={() => this.handleLogin(this.state.email)}>
+                <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 20 }}>LogIn</Text></Button>
+
             </View>
           </View>
         </SafeAreaView>
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
     //flex: 1,
     width: Dimensions.get('window').width,
     paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
+    backgroundColor: '#082640'
   },
   marginTitle: {
     alignItems: 'center',
@@ -120,25 +122,29 @@ const styles = StyleSheet.create({
   },
   marginSubTitle: {
     marginTop: 80,
-    marginBottom: 60
+    marginBottom: 30
   },
   title: {
-    fontSize: 50
+    marginTop: 20,
+    fontSize: 65,
+    color: '#e4ab74',
+    fontFamily: 'pinyon-script.regular'
   },
   text: {
-    //color: 'white',
+    color: '#e4ab74',
+    fontFamily: 'BodoniFLF-Roman', fontSize: 20 
   },
   subTitle: {
     fontSize: 20,
-    //color: 'white',
+    color: '#e4ab74'
   },
-  box:{
-    //borderColor: 'white',
-    
+  Button: {
+    backgroundColor: '#711f07'
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#eee6bf',
+    
   },
   TextMode: {
     color: 'blue',

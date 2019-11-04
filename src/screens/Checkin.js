@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList } from 'react-native';
 import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 import moment from "moment";
 
 import { connect } from 'react-redux'
@@ -46,23 +47,25 @@ class Checkin extends Component {
     this.props.navigation.navigate('Checkout', { room: item })
   }
 
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      this.refreshData()
-    }, 5000);
+  async componentDidMount() {
+    this.interval = await setInterval(async () => {
+      if (!this.props.orders.isLoading) {
+        this.refreshData()
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
   async refreshData() {
-    await this.getData()
-    console.log('here');
     const data = this.state.data
-    for (let i = 0; i < this.state.data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       if (data[i].order !== null) {
-        if (moment(data[i].order.order_end_time).diff(moment(), 'm') <= 0)
-          this.handleCheckout(data[i].order.id)
+        if (moment(data[i].order.order_end_time).diff(moment(), 's') <= 0) {
+          await this.handleCheckout(data[i].order.id)
+
+        }
       }
     }
   }
@@ -74,18 +77,23 @@ class Checkin extends Component {
       data: {
         is_done: true,
         is_booked: false,
-        duration: 0,
+        //duration: 0,
       }
     }
     await this.props.handleUpdateOrder(param)
   }
 
   render() {
+    if (this.props.orders.isSuccess && !this.props.orders.isLoading && this.props.orders.needRefresh) {
+      this.getData()
+    }
     return (
       <Container style={styles.container}>
-        <Header>
-          <Text style={styles.title}> Checkin </Text>
-        </Header>
+        <LinearGradient colors={['#082641', '#202060']}>
+          <Header style={styles.Header}>
+            <Text style={styles.title}> Checkin </Text>
+          </Header>
+        </LinearGradient>
         <Content style={{ width: Dimensions.get('window').width }}>
           <View style={styles.formAll}>
             <FlatList
@@ -95,11 +103,17 @@ class Checkin extends Component {
               renderItem={({ item }) =>
                 <Button
                   block light style={{
-                    backgroundColor: item.order ? 'grey' : 'green',
+                    backgroundColor: item.order ? '#eee6bf' : '#082641',
                     margin: 5, width: 100, height: 70
                   }}
                   onPress={() => { item.order ? this.checkout(item) : this.addOrder(item) }}>
-                  <Text style={{ alignSelf: 'center' }}>{item.room_name}</Text>
+                  <Text style={{
+                    alignSelf: 'center',
+                    color: item.order ? 'black' : 'white',
+                    fontFamily: 'Italianno-Regular-OTF',
+                    fontSize: 24,
+                    width: 30
+                  }}>{item.room_name}</Text>
                 </Button>
               } />
           </View>
@@ -115,7 +129,8 @@ const styles = StyleSheet.create({
     //height: 500
   },
   Header: {
-    backgroundColor: '#ff6e6e',
+    backgroundColor: 'transparent',
+
   },
   headerSlide: {
     height: 210,
@@ -137,9 +152,10 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 24,
-    color: 'white',
-    alignSelf: 'center'
+    fontSize: 34,
+    color: '#e4ab74',
+    alignSelf: 'center',
+    fontFamily: 'pinyon-script.regular'
   },
   Slideshow: {
     width: 250,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, CardItem, Card, Body, Spinner } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
 import * as actionRooms from '../redux/actions/actionRooms'
@@ -11,7 +12,7 @@ class EditRoom extends React.Component {
     super(props);
     this.state = {
       room_name: '',
-      roomId:'',
+      roomId: '',
       data: []
     };
   }
@@ -40,26 +41,25 @@ class EditRoom extends React.Component {
 
 
 
-   UNSAFE_componentWillMount() {
-     this.setState({room_name: this.props.navigation.state.params.room.room_name})
-     this.setState({roomId: this.props.navigation.state.params.room.id})
-   }
+  UNSAFE_componentWillMount() {
+    this.setState({ room_name: this.props.navigation.state.params.room.room_name })
+    this.setState({ roomId: this.props.navigation.state.params.room.id })
+  }
 
-   UNSAFE_componentWillReceiveProps(nexProps){
-     if(nexProps.navigation.state.params.room !== this.props.navigation.state.params.room){
-      this.setState({room_name: nexProps.navigation.state.params.room.room_name})
-      this.setState({roomId: nexProps.navigation.state.params.room.id})
-     }
-   }
+  UNSAFE_componentWillReceiveProps(nexProps) {
+    if (nexProps.navigation.state.params.room !== this.props.navigation.state.params.room) {
+      this.setState({ room_name: nexProps.navigation.state.params.room.room_name })
+      this.setState({ roomId: nexProps.navigation.state.params.room.id })
+    }
+  }
 
 
   render() {
-    
-    const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
-        <SafeAreaView>
-          <View >
+        <Card style={styles.innerContainer}>
+          <LinearGradient style={styles.innerContainer}
+            colors={['#f1c550', '#fff9e0', '#f1c550']}>
             <View style={[styles.marginTitle]}>
               <Text style={styles.subTitle}>Edit Room</Text>
             </View>
@@ -67,30 +67,33 @@ class EditRoom extends React.Component {
               <Text style={styles.text}>Room Name</Text>
               <Item regular
                 style={styles.formItem}>
-                <Input
+                <Input style={{ fontFamily: 'BodoniFLF-Roman' }}
                   value={this.state.room_name}
                   onChangeText={(text) => this.setState({ room_name: text })}
                 />
               </Item >
             </View>
-            <Item>
-              <Left>
-                <Button block rounded light
+            <CardItem style={{ backgroundColor: 'transparent' }}>
+              <Item
+                style={{borderColor: 'transparent' }}>
+                <Button block light
+                  style={styles.ButtonCancel}
                   onPress={() => this.props.navigation.navigate('Room')}>
-                  <Text style={{ color: 'black' }}>Cancel</Text></Button>
-              </Left>
-              <Right>
-                <Button block rounded light danger
+                  <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Cancel</Text></Button>
+                <Button block style={styles.Button}
                   onPress={() => this.handleUpdateRoom()}>
-                  <Text style={{ color: '#ffffff' }}>Edit</Text></Button>
-              </Right>
-            </Item>
-            <Button block rounded light danger
-            style={styles.marginSubTitle}
-                  onPress={() => this.handleDeleteRoom()}>
-                  <Text style={{ color: '#ffffff' }}>Delete</Text></Button>
-          </View>
-        </SafeAreaView>
+                  <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Edit</Text>
+                </Button>
+              </Item>
+            </CardItem>
+            <Body>
+              <Button block style={styles.Button}
+                onPress={() => this.handleDeleteRoom()}>
+                <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Delete</Text>
+              </Button>
+            </Body>
+          </LinearGradient>
+        </Card>
       </Container>
     );
   }
@@ -98,28 +101,37 @@ class EditRoom extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    width: Dimensions.get('window').width,
+
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+  },
+  innerContainer: {
+    alignSelf: 'center',
+    width: 320,
+    height: 300,
     paddingHorizontal: 10,
-    //backgroundColor: 'skyblue'
+    backgroundColor: '#ffffff',
   },
   marginTitle: {
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
-  marginSubTitle: {
-    marginTop: 80,
-    marginBottom: 60
+  delete: {
+    alignSelf: 'center',
+    width: 230
   },
   title: {
     fontSize: 50
   },
   text: {
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF',
+    fontSize: 20
   },
   subTitle: {
-    fontSize: 20,
+    fontSize: 32,
     //color: 'white',
+    fontFamily: 'Italianno-Regular-OTF'
   },
   box: {
     //borderColor: 'white',
@@ -128,6 +140,7 @@ const styles = StyleSheet.create({
   formItem: {
     marginBottom: 10,
     //borderColor: 'white'
+
   },
   TextMode: {
     color: 'blue',
@@ -135,7 +148,19 @@ const styles = StyleSheet.create({
   Text: {
     marginTop: 20,
     alignSelf: 'center',
-  }
+  },
+  Button: {
+    marginTop: 10,
+    width: 130,
+    height: 40,
+    backgroundColor: '#711f07'
+  },
+  ButtonCancel: {
+    marginTop: 10,
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffff'
+  },
 })
 
 

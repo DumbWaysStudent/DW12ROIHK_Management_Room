@@ -35,7 +35,7 @@ const BottomTabNav = createBottomTabNavigator(
         header: null
       }),
     },
-   
+
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -48,20 +48,25 @@ const BottomTabNav = createBottomTabNavigator(
           iconName = `bed`;
         } else if (routeName === 'Customer') {
           iconName = `people`;
-      } else if (routeName === 'Settings') {
-        iconName = `settings`;
-      }
+        } else if (routeName === 'Settings') {
+          iconName = `settings`;
+        }
 
         // You can return any component that you like here!
         return <Icon name={iconName} size={25} color='white' />;
       },
     }),
-
+    
     tabBarOptions: {
-      activeBackgroundColor: '#ff6e6e',
+      
+      activeBackgroundColor: '#D4af37',
       //inactiveBackgroundColor:'#3419ff', 
       activeTintColor: 'white',
-      inactiveTintColor: 'gray',
+      inactiveTintColor: '#D4af37',
+      labelStyle: {
+        fontFamily: 'Italianno-Regular-OTF',
+        fontSize: 18
+      },
     },
   }
 );
