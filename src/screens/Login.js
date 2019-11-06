@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground } from 'react-native';
-import { Item, Input, Button, Icon, Container } from 'native-base';
+import { Item, Input, Button, Icon, Container, Content } from 'native-base';
 
 import { connect } from 'react-redux'
 import * as actionUsers from './../redux/actions/actionUsers'
@@ -12,8 +12,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'admin@gmail.com',
-      password: 'rahasia',
+      username: '',
+      password: '',
       icon: 'eye-off',
       passMode: true
     };
@@ -70,7 +70,7 @@ class Login extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        <SafeAreaView>
+        <Content>
           <View >
             <View style={[styles.marginTitle]}>
               <Image
@@ -103,7 +103,7 @@ class Login extends React.Component {
 
             </View>
           </View>
-        </SafeAreaView>
+        </Content>
       </Container>
     );
   }

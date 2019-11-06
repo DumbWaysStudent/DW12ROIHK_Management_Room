@@ -13,6 +13,8 @@ class EditRoom extends React.Component {
     this.state = {
       room_name: '',
       roomId: '',
+      isLoadingEdit: false,
+      isLoadingDelete: false,
       data: []
     };
   }
@@ -26,7 +28,7 @@ class EditRoom extends React.Component {
         room_name: this.state.room_name,
       }
     }
-    await this.props.handleUpdateRooms(param)
+    this.props.handleUpdateRooms(param)
     this.props.navigation.navigate('Room')
   }
 
@@ -75,14 +77,17 @@ class EditRoom extends React.Component {
             </View>
             <CardItem style={{ backgroundColor: 'transparent' }}>
               <Item
-                style={{borderColor: 'transparent' }}>
+                style={{ borderColor: 'transparent' }}>
                 <Button block light
                   style={styles.ButtonCancel}
                   onPress={() => this.props.navigation.navigate('Room')}>
                   <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Cancel</Text></Button>
                 <Button block style={styles.Button}
                   onPress={() => this.handleUpdateRoom()}>
-                  <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Edit</Text>
+                  {
+                    this.state.isLoadingEdit ? <Spinner style={{ height: 16 }} /> :
+                      <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Edit</Text>
+                  }
                 </Button>
               </Item>
             </CardItem>
@@ -139,7 +144,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#fff0bc',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
 
   },
   TextMode: {

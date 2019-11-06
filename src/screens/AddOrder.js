@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground, FlatList, Picker } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right, Body, CardItem, Card } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Body, CardItem, Card, Spinner } from 'native-base';
 import moment from "moment";
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -40,7 +40,6 @@ class AddOrder extends React.Component {
       }
 
     }
-    console.log(param);
     await this.props.handleAddOrder(param)
     this.props.navigation.navigate('Checkin')
 
@@ -90,76 +89,83 @@ class AddOrder extends React.Component {
     return (
       <Container style={styles.container}>
         <Card style={styles.innerContainer}>
-        <LinearGradient style={styles.innerContainer}
-          colors={['#f1c550', '#fff9e0', '#f1c550']}>
-          <View >
-            <View style={[styles.marginTitle]}>
-              <Text style={styles.title}>Checkin</Text>
-            </View>
-            <View>
-              <Text style={styles.text}>Room Name</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input disabled
-                  style={{ fontFamily: 'BodoniFLF-Roman' }}
-                  value={this.state.room_name}
-                  onChangeText={(text) => this.setState({ room_name: text })}
-                />
-              </Item >
-              <Item>
-                <Left>
-                  <Text style={styles.text}>Customer</Text>
-                </Left>
-                <Right>
-                  <Item
-                    onPress={() => this.props.navigation.navigate('AddCustomer', { prevScreen: 'AddOrder' })}>
-                    <Text style={{ fontFamily: 'BodoniFLF-Roman' }}> Add  </Text><Icon name='add' />
-                  </Item>
-                </Right>
-              </Item>
-              <Item regular
-                style={styles.formItem}>
-                <Picker
-                  textStyle={{ fontFamily: 'BodoniFLF-Roman' }}
-                  mode="dropdown"
-                  style={{ width: 300, height: 40 }}
-                  selectedValue={this.state.selected}
-                  onValueChange={this.onValueChange.bind(this)}
-                  itemStyle={{ fontFamily: 'BodoniFLF-Roman' }}
-                >
-                  {this.state.data.map((data, i) => {
-                    return (
-                      <Picker.Item 
-                        label={data.name} value={data.id} key={i} />
-                    );
+          <LinearGradient style={styles.innerContainer}
+            colors={['#f1c550', '#fff9e0', '#f1c550']}>
+            <View >
+              <View style={[styles.marginTitle]}>
+                <Text style={styles.title}>Checkin</Text>
+              </View>
+              <View>
+                <Text style={styles.text}>Room Name</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input disabled
+                    style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.room_name}
+                    onChangeText={(text) => this.setState({ room_name: text })}
+                  />
+                </Item >
+                <Item>
+                  <Left>
+                    <Text style={styles.text}>Customer</Text>
+                  </Left>
+                  <Right>
+                    <Item
+                      onPress={() => this.props.navigation.navigate('AddCustomer', { prevScreen: 'AddOrder' })}>
+                      <Text style={{ fontFamily: 'BodoniFLF-Roman' }}> Add  </Text><Icon name='add' />
+                    </Item>
+                  </Right>
+                </Item>
+                <Item regular
+                  style={styles.formItem}>
+                  {
+                    this.props.customers.isLoading ? <Spinner style={{ height: 40 }} /> :
+                      <Picker
+                        textStyle={{ fontFamily: 'BodoniFLF-Roman' }}
+                        mode="dropdown"
+                        style={{ width: 300, height: 40 }}
+                        selectedValue={this.state.selected}
+                        onValueChange={this.onValueChange.bind(this)}
+                        itemStyle={{ fontFamily: 'BodoniFLF-Roman' }}
+                      >
+                        {this.state.data.map((data, i) => {
+                          return (
+                            <Picker.Item
+                              label={data.name} value={data.id} key={i} />
+                          );
+                        }
+                        )}
+                      </Picker>
                   }
-                  )}
-                </Picker>
-              </Item >
-              <Text style={styles.text}>Duration (minutes)</Text>
-              <Item regular
-                style={styles.formItem}>
-                <Input
-                  style={{ fontFamily: 'BodoniFLF-Roman' }}
-                  value={this.state.duration}
-                  onChangeText={(text) => this.setState({ duration: text })}
-                  keyboardType={"number-pad"}
-                />
-              </Item >
+                </Item >
+                <Text style={styles.text}>Duration (minutes)</Text>
+                <Item regular
+                  style={styles.formItem}>
+                  <Input
+                    style={{ fontFamily: 'BodoniFLF-Roman' }}
+                    value={this.state.duration}
+                    onChangeText={(text) => this.setState({ duration: text })}
+                    keyboardType={"number-pad"}
+                  />
+                </Item >
+              </View>
+              <CardItem style={{ backgroundColor: 'transparent' }}>
+                <Item>
+                  <Button block style={styles.ButtonCancel}
+                    onPress={() => this.props.navigation.navigate('Checkin')}>
+                    <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Cancel</Text></Button>
+                  <Button block
+                    style={styles.Button}
+                    onPress={() => this.handleAddOrder()}>
+                    {
+                      this.props.orders.isLoading ? <Spinner style={{ height: 16 }} /> :
+                        <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Add</Text>
+                    }
+                  </Button>
+                </Item>
+              </CardItem>
             </View>
-            <CardItem style={{backgroundColor: 'transparent'}}>
-              <Item>
-                <Button block style={styles.ButtonCancel}
-                  onPress={() => this.props.navigation.navigate('Checkin')}>
-                  <Text style={{ color: 'black', fontFamily: 'BodoniFLF-Roman', fontSize: 16  }}>Cancel</Text></Button>
-                <Button block
-                  style={styles.Button}
-                  onPress={() => this.handleAddOrder()}>
-                  <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16  }}>Add</Text></Button>
-              </Item>
-            </CardItem>
-          </View>
-        </LinearGradient>
+          </LinearGradient>
         </Card>
       </Container>
     );
@@ -199,7 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     //color: 'white',
     fontFamily: 'Italianno-Regular-OTF',
-    
+
   },
   box: {
     //borderColor: 'white',
@@ -207,7 +213,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#fff0bc',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
   },
   Button: {
     width: 130,
@@ -230,7 +238,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    order: state.order,
+    orders: state.orders,
     customers: state.customers,
   }
 }

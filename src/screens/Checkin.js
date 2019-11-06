@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList } from 'react-native';
-import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item } from 'native-base';
+import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item, Spinner } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from "moment";
 
@@ -14,6 +14,7 @@ class Checkin extends Component {
       interval: '',
       data: [],
       param: [],
+      time: null,
     };
   }
 
@@ -29,6 +30,7 @@ class Checkin extends Component {
 
   }
   async UNSAFE_componentWillMount() {
+    moment()
     this.userData()
   }
 
@@ -52,6 +54,7 @@ class Checkin extends Component {
       if (!this.props.orders.isLoading) {
         this.refreshData()
       }
+      this.setState({time: moment()})
     }, 1000);
   }
 
@@ -87,6 +90,9 @@ class Checkin extends Component {
     if (this.props.orders.isSuccess && !this.props.orders.isLoading && this.props.orders.needRefresh) {
       this.getData()
     }
+    if (this.props.rooms.isSuccess && !this.props.rooms.isLoading && this.props.rooms.needRefresh) {
+      this.getData()
+    }
     return (
       <Container style={styles.container}>
         <LinearGradient colors={['#082641', '#202060']}>
@@ -94,30 +100,48 @@ class Checkin extends Component {
             <Text style={styles.title}> Checkin </Text>
           </Header>
         </LinearGradient>
-        <Content style={{ width: Dimensions.get('window').width }}>
-          <View style={styles.formAll}>
-            <FlatList
-              data={this.state.data}
-              numColumns={3}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) =>
-                <Button
-                  block light style={{
-                    backgroundColor: item.order ? '#eee6bf' : '#082641',
-                    margin: 5, width: 100, height: 70
-                  }}
-                  onPress={() => { item.order ? this.checkout(item) : this.addOrder(item) }}>
-                  <Text style={{
-                    alignSelf: 'center',
-                    color: item.order ? 'black' : 'white',
-                    fontFamily: 'Italianno-Regular-OTF',
-                    fontSize: 24,
-                    width: 30
-                  }}>{item.room_name}</Text>
-                </Button>
-              } />
-          </View>
-        </Content>
+        {
+          this.props.rooms.isLoading ? <Spinner /> :
+            <Content style={{ width: Dimensions.get('window').width }}>
+              <View style={styles.formAll}>
+                <FlatList
+                  data={this.state.data}
+                  numColumns={3}
+                  keyExtractor={item => item.id}
+                  renderItem={({ item }) =>
+                    <Button
+                      block light style={{
+                        backgroundColor: item.order ? '#eee6bf' : '#082641',
+                        margin: 5, width: 100, height: 70
+                      }}
+                      onPress={() => { item.order ? this.checkout(item) : this.addOrder(item) }}>
+                      <Body>
+                        <Text style={{
+                          alignSelf: 'center',
+                          color: item.order ? 'black' : 'white',
+                          fontFamily: 'Italianno-Regular-OTF',
+                          fontSize: 24,
+                          width: 28
+                        }}>{item.room_name}</Text>
+                        <Text style={{
+                          alignSelf: 'center',
+                          color: item.order ? 'black' : 'white',
+                          fontFamily: 'Italianno-Regular-OTF',
+                          fontSize: 18,
+                          width: 60
+                        }}
+                        >{
+                            item.order ?
+                              `${moment(item.order.order_end_time).diff(moment(), 'm')} : ${moment(item.order.order_end_time).diff(moment(), 's')%60} left`
+                              :
+                              'Available'
+                          }</Text>
+                      </Body>
+                    </Button>
+                  } />
+              </View>
+            </Content>
+        }
       </Container>
     );
   }
@@ -169,7 +193,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    orders: state.orders
+    orders: state.orders,
+    rooms: state.rooms
   }
 }
 

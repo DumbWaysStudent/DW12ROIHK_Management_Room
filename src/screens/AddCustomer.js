@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground} from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground, Platform} from 'react-native';
 import { Item, Input, Button, Icon, Container, Left, Right, Card, CardItem } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -8,9 +8,9 @@ import { connect } from 'react-redux'
 import * as actionCustomers from './../redux/actions/actionCustomers'
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-const creatFormData = (photo) => {
+const creatFormData = (photo, fieldname) => {
   const data = new FormData();
-  data.append("profileImage", {
+  data.append(fieldname, {
     name: photo.fileName,
     type: photo.type,
     uri:
@@ -69,44 +69,55 @@ class AddCustomer extends React.Component {
     });
   };
 
-  async UploadPhotoCustomers() {
+  async UploadPhotoCustomers(fieldname) {
     console.log("Upload Photo");
-    this.setState({ token: await AsyncStorage.getItem('token') })
+    //this.setState({ token: await AsyncStorage.getItem('token') })
     const param = {
       token: this.state.token,
-      customer: this.state.customerId,
-      data: await creatFormData(this.state.filePath)
+      data: await creatFormData(this.state.filePath, fieldname)
     }
     console.log('here');
-
     console.log(param);
-
     await this.props.handleAddPhotoCustomers(param)
     await this.setState({ photoCustomer: this.props.customers.imageUrl })
-    console.log(this.state.photoCustomer);
-
+    
   }
 
   async handleAddCustomer() {
     console.log('here')
-
-    await this.UploadPhotoCustomers()
+    this.setState({ token: await AsyncStorage.getItem('token') })
     const param = {
       token: this.state.token,
       data: {
         name: this.state.name,
         identity_number: this.state.identityNumber,
         phone_number: this.state.phoneNumber,
-        image: this.state.photoCustomer
+        //image: this.state.photoCustomer
       }
-
-
     }
     console.log('token');
     await this.props.handleAddCustomers(param)
+    await this.handleUpdateCustomer()
     this.props.navigation.navigate('Customer')
   }
+  async handleUpdateCustomer() {
+    console.log(this.props.customers.newCustomers.data.customers.id);
+    let customersId = this.props.customers.newCustomers.data.customers.id;
+    await this.UploadPhotoCustomers(`${customersId}`)
+    const param = {
+      token: this.state.token,
+      customer: customersId,
+      data: {
+        image: this.state.photoCustomer
+      }
+    }
+    console.log('update');
+    
+    await this.props.handleUpdateCustomers(param)
+    this.props.navigation.navigate('Customer')
 
+    await this.setState({ photoCustomer: '' })
+  }
 
   render() {
     return (
@@ -209,7 +220,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#fff0bc',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
   },
   Button: {
     width: 130,
@@ -239,7 +252,7 @@ const mapDispatchToProps = dispatch => {
   return {
     handleAddCustomers: (param) => dispatch(actionCustomers.handleAddCustomers(param)),
     handleAddPhotoCustomers: (param) => dispatch(actionCustomers.handleAddPhotoCustomers(param)),
-
+    handleUpdateCustomers: (param) => dispatch(actionCustomers.handleUpdateCustomers(param))
   }
 }
 

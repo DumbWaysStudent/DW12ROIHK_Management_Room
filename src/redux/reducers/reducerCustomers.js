@@ -6,6 +6,7 @@ const initialState = {
   isSuccess: false,
   needRefresh: false,
   customers: [],
+  newCustomers:[],
   imageUrl: ''
 };
 
@@ -46,7 +47,7 @@ export default function reducerMyImages(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        customers: action.payload
+        newCustomers: action.payload
       };
 
     case `${types.ADD_CUSTOMERS}_REJECTED`:
@@ -70,7 +71,7 @@ export default function reducerMyImages(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        customers: action.payload
+        newCustomers: action.payload
       };
 
     case `${types.DELETE_CUSTOMERS}_REJECTED`:
@@ -93,7 +94,7 @@ export default function reducerMyImages(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        customers: action.payload
+        newCustomers: action.payload
       };
 
     case `${types.UPDATE_CUSTOMERS}_REJECTED`:
@@ -117,7 +118,7 @@ export default function reducerMyImages(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         needRefresh: true,
-        imageUrl: `https://management-room-rest-api.herokuapp.com/${action.payload.data.filePath}`
+        imageUrl: action.payload.data.url
       };
 
     case `${types.ADD_PHOTO_CUSTOMERS}_REJECTED`:

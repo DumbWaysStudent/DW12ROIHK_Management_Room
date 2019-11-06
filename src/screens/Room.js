@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, AsyncStorage, SafeAreaView, FlatList, Modal, ImageBackground } from 'react-native';
-import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item } from 'native-base'
+import { Card, List, Body, Button, CardItem, Left, Header, Content, Container, Item, Spinner } from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 
 import { connect } from 'react-redux'
@@ -61,50 +61,56 @@ class Room extends Component {
     this.props.navigation.navigate('EditRooms', { room: item })
   }
 
-//   UNSAFE_componentWillReceiveProps(nextProps) {
-//     console.log('nextProps');
-//     console.log(nextProps.navigation.getParam('closeModal'));
-//     if (this.props.navigation.getParam('closeModal') == true) {
-//       console.log('roomModal')
-//       this.setState({ modalVisible: !this.state.modalVisible })
-//       this.props.navigation.setParams({ closeModal: false })
-//   }
-// }
+  //   UNSAFE_componentWillReceiveProps(nextProps) {
+  //     console.log('nextProps');
+  //     console.log(nextProps.navigation.getParam('closeModal'));
+  //     if (this.props.navigation.getParam('closeModal') == true) {
+  //       console.log('roomModal')
+  //       this.setState({ modalVisible: !this.state.modalVisible })
+  //       this.props.navigation.setParams({ closeModal: false })
+  //   }
+  // }
   render() {
+    if (this.props.rooms.isSuccess && !this.props.rooms.isLoading && this.props.rooms.needRefresh) {
+      this.getData()
+    }
     return (
       <Container style={styles.container}>
-      <LinearGradient style={{width: Dimensions.get('window').width,}}
-        colors={['#082641', '#202060']}>
+        <LinearGradient style={{ width: Dimensions.get('window').width, }}
+          colors={['#082641', '#202060']}>
           <Header style={styles.Header}>
-            <Text style={styles.title}> Customer </Text>
+            <Text style={styles.title}> Room </Text>
           </Header>
         </LinearGradient>
-        <Content style={{ width: Dimensions.get('window').width }}>
-          <View style={styles.formAll}>
-            <FlatList
-              data={this.state.data}
-              numColumns={3}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) =>
-                <Button block light style={styles.room}
-                  onPress={() => this.editRoom(item)}>
-                  <Text style={{
-                    alignSelf: 'center',
-                    color: 'white',
-                    fontFamily: 'Italianno-Regular-OTF',
-                    fontSize: 24,
-                    width: 30
-                  }}>{item.room_name}</Text>
-                </Button>
-              } />
-            <Item style={{ alignSelf: 'center' }}>
-              <Button block small style={styles.Button}
-                onPress={() => this.AddRooms()}>
-                <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 17 }}> Add Room </Text>
-              </Button>
-            </Item>
-          </View>
-        </Content>
+        {
+          this.props.rooms.isLoading ? <Spinner /> :
+            <Content style={{ width: Dimensions.get('window').width }}>
+              <View style={styles.formAll}>
+                <FlatList
+                  data={this.state.data}
+                  numColumns={3}
+                  keyExtractor={item => item.id}
+                  renderItem={({ item }) =>
+                    <Button block light style={styles.room}
+                      onPress={() => this.editRoom(item)}>
+                      <Text style={{
+                        alignSelf: 'center',
+                        color: 'white',
+                        fontFamily: 'Italianno-Regular-OTF',
+                        fontSize: 24,
+                        width: 30
+                      }}>{item.room_name}</Text>
+                    </Button>
+                  } />
+                <Item style={{ alignSelf: 'center' }}>
+                  <Button block small style={styles.Button}
+                    onPress={() => this.AddRooms()}>
+                    <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 17 }}> Add Room </Text>
+                  </Button>
+                </Item>
+              </View>
+            </Content>
+        }
       </Container>
     );
   }
@@ -126,6 +132,7 @@ const styles = StyleSheet.create({
   },
   Button: {
     marginTop: 20,
+    marginBottom: 10,
     width: 100,
     height: 40,
     backgroundColor: '#711f07'

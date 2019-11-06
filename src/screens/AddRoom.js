@@ -25,12 +25,7 @@ class AddRoom extends React.Component {
         room_name: this.state.room_name,
       }
     }
-    console.log('token');
-    await this.props.handleAddRooms(param)
-    console.log('add done');
-    // this.props.navigation.setParams({ closeModal: true })
-    // console.log('close Modal');
-
+    this.props.handleAddRooms(param)
     this.props.navigation.navigate('Room')
   }
 
@@ -42,7 +37,6 @@ class AddRoom extends React.Component {
 
 
   render() {
-    const { label, icon, onChange } = this.props;
     return (
       <Container style={styles.container}>
         <Card style={styles.innerContainer}>
@@ -120,7 +114,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#fff0bc',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
 
   },
   TextMode: {

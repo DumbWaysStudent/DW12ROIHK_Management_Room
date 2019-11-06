@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, AsyncStorage, Image, ImageBackground } from 'react-native';
-import { Item, Input, Button, Icon, Container, Left, Right, Card, CardItem } from 'native-base';
+import { Item, Input, Button, Icon, Container, Left, Right, Card, CardItem, Spinner } from 'native-base';
 import moment from "moment";
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -117,7 +117,11 @@ class Checkout extends React.Component {
                   <Button block
                     style={styles.Button}
                     onPress={() => this.handleCheckout()}>
-                    <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Checkout</Text></Button>
+                    {
+                      this.props.orders.isLoading ? <Spinner style={{ height: 16 }} /> :
+                        <Text style={{ color: '#ffffff', fontFamily: 'BodoniFLF-Roman', fontSize: 16 }}>Checkout</Text>
+                    }
+                  </Button>
                 </Item>
               </CardItem>
             </View>
@@ -169,7 +173,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#e8e2db',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
   },
   Button: {
     width: 130,

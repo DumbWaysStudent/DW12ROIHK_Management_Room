@@ -51,7 +51,8 @@ export const handleAddPhotoCustomers = (param) => ({
   type: types.ADD_PHOTO_CUSTOMERS,
   payload: axios({
     method: 'POST',
-    url: `https://management-room-rest-api.herokuapp.com/api/v2/customer/${param.customer}`,
+    //url: `https://management-room-rest-api.herokuapp.com/api/v2/customer/${param.customer}`,
+    url: 'https://us-central1-management-room-rest-api.cloudfunctions.net/uploadFile',
     headers: {
       Authorization: `bearer ${param.token}`
     },

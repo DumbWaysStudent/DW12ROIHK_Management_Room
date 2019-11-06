@@ -34,8 +34,8 @@ export default class Settings extends Component {
         </LinearGradient>
         <View style={{ margin: 1 }}>
           <Card style={styles.Card}>
-            
-
+          <LinearGradient style={styles.Card}
+            colors={['#e2c275', '#eadca6']}>
             <CardItem style={{backgroundColor: '#eee6bf7'}}
             thumbnail>
               <Body style={{ alignItems: 'center' }}>
@@ -56,6 +56,7 @@ export default class Settings extends Component {
               }}> Log Out </Text>
             </Button>
           </Item>
+          </LinearGradient>
           </Card>
           <View style={styles.logo}>
               <Image
@@ -98,11 +99,11 @@ const styles = StyleSheet.create({
 
   },
   Card: {
-    backgroundColor: '#eee6bf',
+    backgroundColor: 'transparent',
     alignContent: 'center',
     alignSelf: 'center',
-    width: '60%',
-    height: '30%'
+    width: 200,
+    height: 150
   },
   title: {
     fontSize: 34,

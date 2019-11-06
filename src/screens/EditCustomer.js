@@ -8,9 +8,9 @@ import { connect } from 'react-redux'
 import * as actionCustomers from '../redux/actions/actionCustomers'
 
 
-const creatFormData = (photo) => {
+const creatFormData = (photo, fieldname) => {
   const data = new FormData();
-  data.append("profileImage", {
+  data.append(fieldname, {
     name: photo.fileName,
     type: photo.type,
     uri:
@@ -32,6 +32,7 @@ class EditCustomer extends React.Component {
       filePath: {
         uri: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png',
       },
+      isUpload: false
     };
   }
 
@@ -62,17 +63,16 @@ class EditCustomer extends React.Component {
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
           filePath: source,
-
+          isUpload: true
         });
       }
     });
   };
 
-  async UploadPhotoCustomers() {
+  async UploadPhotoCustomers(fieldname) {
     const param = {
       token: await AsyncStorage.getItem('token'),
-      customer: this.state.customerId,
-      data: await creatFormData(this.state.filePath)
+      data: await creatFormData(this.state.filePath, fieldname)
     }
     await this.props.handleAddPhotoCustomers(param)
     await this.setState({ photoCustomer: this.props.customers.imageUrl })
@@ -81,7 +81,9 @@ class EditCustomer extends React.Component {
   }
 
   async handleUpdateCustomer() {
-    await this.UploadPhotoCustomers()
+    if (this.state.isUpload) {
+      await this.UploadPhotoCustomers(`${this.state.customerId}`)
+    }
     const param = {
       token: await AsyncStorage.getItem('token'),
       customer: this.state.customerId,
@@ -119,6 +121,7 @@ class EditCustomer extends React.Component {
         uri: this.props.navigation.state.params.customer.image
       }
     })
+    this.setState({ photoCustomer: this.props.navigation.state.params.customer.image })
     this.setState({ customerId: this.props.navigation.state.params.customer.id })
   }
 
@@ -132,6 +135,7 @@ class EditCustomer extends React.Component {
           uri: this.props.navigation.state.params.customer.image
         }
       })
+      this.setState({ photoCustomer: this.props.navigation.state.params.customer.image })
       this.setState({ customerId: this.props.navigation.state.params.customer.id })
     }
   }
@@ -186,14 +190,14 @@ class EditCustomer extends React.Component {
                 </CardItem>
               </View>
               <CardItem style={{ backgroundColor: 'transparent' }}>
-                <Item style={{borderColor: 'transparent' }}>
+                <Item style={{ borderColor: 'transparent' }}>
                   <Button block style={styles.ButtonCancel}
                     onPress={() => this.props.navigation.navigate('Customer')}>
                     <Text style={{ color: 'black' }}>Cancel</Text></Button>
                   <Button block
                     style={styles.Button}
-                    onPress={() => this.handleAddCustomer()}>
-                    <Text style={{ color: '#ffffff' }}>Add</Text></Button>
+                    onPress={() => this.handleUpdateCustomer()}>
+                    <Text style={{ color: '#ffffff' }}>Save</Text></Button>
                 </Item>
               </CardItem>
               <Body>
@@ -245,7 +249,9 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 10,
-    //borderColor: 'white'
+    backgroundColor: '#fff0bc',
+    borderWidth: 2,
+    borderColor: '#ffc60b'
   },
   Button: {
     width: 130,
